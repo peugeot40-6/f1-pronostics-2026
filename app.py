@@ -1,5 +1,4 @@
 
-<link rel="stylesheet" href="/static/style.css">
 <div class="container">
 <h2>Historique</h2>
 <table>
