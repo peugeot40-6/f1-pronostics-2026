@@ -1,14 +1,17 @@
 
 <link rel="stylesheet" href="/static/style.css">
 <div class="container">
-<h2>Ajouter résultats (Admin)</h2>
-<form method="post">
-GP<br>
-<select name="gp">{% for gp in gps %}<option>{{ gp }}</option>{% endfor %}</select><br><br>
-{% for i in range(1,11) %}
-Position {{ i }}<br>
-<select name="pos{{i}}">{% for p in pilotes %}<option>{{ p }}</option>{% endfor %}</select><br><br>
+<h2>Pronostics</h2>
+<table>
+<tr><th>GP</th><th>Joueur</th><th>1er</th><th>2e</th><th>3e</th></tr>
+{% for p in pronos %}
+<tr>
+<td>{{ p["Grand Prix"] }}</td>
+<td>{{ p["Participant"] }}</td>
+<td>{{ p["1er"] }}</td>
+<td>{{ p["2e"] }}</td>
+<td>{{ p["3er"] if "3er" in p else p["3e"] }}</td>
+</tr>
 {% endfor %}
-<button>Enregistrer</button>
-</form>
+</table>
 </div>
