@@ -1,5 +1,5 @@
 
-<link rel="stylesheet" href="/static/style.css">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 <div class="container">
 <h2>🏁 Fantasy F1</h2>
 {% if erreur %}<p style="color:red">{{ erreur }}</p>{% endif %}
