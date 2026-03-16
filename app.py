@@ -20,13 +20,19 @@ users = {
 points_f1 = {1:25,2:18,3:15,4:12,5:10,6:8,7:6,8:4,9:2,10:1}
 
 grands_prix = [
-"Australie","Japon","Chine","Miami","Monaco",
-"Canada","Belgique","Italie","Las Vegas","Abu Dhabi"
+"Australie", "Japon", "Chine", "Miami", "Barcelone", "Monaco",
+"Canada", "Espagne", "Autriche", "Grande-Bretagne", "Hongrie",
+"Belgique", "Pays-Bas", "Italie", "Azerbaidjan", "Singapour",
+"Etats-Unis", "Mexique", "Bresil", "Las Vegas", "Qatar", "Abu Dhabi"
 ]
 
 pilotes = [
-"Verstappen","Hamilton","Leclerc","Russell","Norris",
-"Piastri","Alonso","Gasly","Ocon","Perez","Stroll","Albon"
+"Max Verstappen", "Lewis Hamilton", "Charles Leclerc", "Kimi Antonelli",
+"George Russell", "Carlos Sainz", "Lando Norris", "Oscar Piastri",
+"Fernando Alonso", "Esteban Ocon", "Pierre Gasly", "Lance Stroll",
+"Gabriel Bortoleto", "Nico Hulkenberg", "Oliver Bearman",
+"Franco Colapinto", "Liam Lawson", "Alexander Albon",
+"Isack Hadjar", "Valteri Bottas", "Sergio Perez", "Arvid Lindblad",
 ]
 
 # ======================
@@ -45,6 +51,13 @@ def login_required(f):
             return redirect("/")
         return f(*args, **kwargs)
     return wrapper
+
+from datetime import datetime
+
+date_gp = {
+"Australie": "2025-03-16 05:00",
+"Japon": "2025-04-06 07:00"
+}
 
 # ======================
 # LOGIN
