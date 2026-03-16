@@ -1,17 +1,40 @@
 
 <link rel="stylesheet" href="/static/style.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <div class="container">
-<h2>Ajouter pronostic</h2>
-{% if erreur %}<p style="color:red">{{ erreur }}</p>{% endif %}
-<form method="post">
-GP<br>
-<select name="gp">{% for gp in gps %}<option>{{ gp }}</option>{% endfor %}</select><br><br>
-1er<br>
-<select name="p1">{% for p in pilotes %}<option>{{ p }}</option>{% endfor %}</select><br><br>
-2e<br>
-<select name="p2">{% for p in pilotes %}<option>{{ p }}</option>{% endfor %}</select><br><br>
-3e<br>
-<select name="p3">{% for p in pilotes %}<option>{{ p }}</option>{% endfor %}</select><br><br>
-<button>Enregistrer</button>
-</form>
+<h2>Classement général</h2>
+
+<canvas id="graph"></canvas>
+
+<table>
+<tr><th>Position</th><th>Joueur</th><th>Points</th></tr>
+{% for j in classement %}
+<tr>
+<td>
+{% if loop.index == 1 %}🥇
+{% elif loop.index == 2 %}🥈
+{% elif loop.index == 3 %}🥉
+{% else %}{{ loop.index }}
+{% endif %}
+</td>
+<td>{{ j.Participant }}</td>
+<td>{{ j.Total }}</td>
+</tr>
+{% endfor %}
+</table>
+
+<script>
+const ctx = document.getElementById('graph');
+new Chart(ctx, {
+type: 'bar',
+data: {
+labels: {{ joueurs|tojson }},
+datasets: [{
+label: 'Points',
+data: {{ scores|tojson }}
+}]
+}
+});
+</script>
+
 </div>
