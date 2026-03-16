@@ -1,0 +1,17 @@
+
+<link rel="stylesheet" href="/static/style.css">
+<div class="container">
+<h2>Pronostics</h2>
+<table>
+<tr><th>GP</th><th>Joueur</th><th>1er</th><th>2e</th><th>3e</th></tr>
+{% for p in pronos %}
+<tr>
+<td>{{ p["Grand Prix"] }}</td>
+<td>{{ p["Participant"] }}</td>
+<td>{{ p["1er"] }}</td>
+<td>{{ p["2e"] }}</td>
+<td>{{ p["3e"] }}</td>
+</tr>
+{% endfor %}
+</table>
+</div>

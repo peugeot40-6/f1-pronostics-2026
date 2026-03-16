@@ -1,0 +1,15 @@
+
+<link rel="stylesheet" href="/static/style.css">
+<div class="container">
+<h2>Classement général</h2>
+<table>
+<tr><th>Position</th><th>Joueur</th><th>Points</th></tr>
+{% for j in classement %}
+<tr>
+<td>{{ loop.index }}</td>
+<td>{{ j.Participant }}</td>
+<td>{{ j.Total }}</td>
+</tr>
+{% endfor %}
+</table>
+</div>
