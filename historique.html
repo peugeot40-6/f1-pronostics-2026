@@ -1,0 +1,14 @@
+
+<link rel="stylesheet" href="/static/style.css">
+<div class="container">
+<h2>Ajouter résultats</h2>
+<form method="post">
+GP<br>
+<select name="gp">{% for gp in gps %}<option>{{ gp }}</option>{% endfor %}</select><br><br>
+{% for i in range(1,11) %}
+Position {{ i }}<br>
+<select name="pos{{i}}">{% for p in pilotes %}<option>{{ p }}</option>{% endfor %}</select><br><br>
+{% endfor %}
+<button>Enregistrer</button>
+</form>
+</div>

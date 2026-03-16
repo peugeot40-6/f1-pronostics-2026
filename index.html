@@ -1,0 +1,11 @@
+
+<link rel="stylesheet" href="/static/style.css">
+<div class="container">
+<h2>🏁 Fantasy F1</h2>
+{% if erreur %}<p style="color:red">{{ erreur }}</p>{% endif %}
+<form method="post">
+Nom<br><input name="nom"><br>
+Mot de passe<br><input name="mdp" type="password"><br><br>
+<button>Connexion</button>
+</form>
+</div>
