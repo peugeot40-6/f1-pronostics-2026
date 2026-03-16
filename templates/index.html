@@ -1,11 +1,34 @@
+<!DOCTYPE html>
+<html>
 
+<head>
+<title>Fantasy F1</title>
 <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
 <div class="container">
+
 <h2>🏁 Fantasy F1</h2>
-{% if erreur %}<p style="color:red">{{ erreur }}</p>{% endif %}
+
+{% if erreur %}
+<p style="color:red">{{ erreur }}</p>
+{% endif %}
+
 <form method="post">
-Nom<br><input name="nom"><br>
-Mot de passe<br><input name="mdp" type="password"><br><br>
+
+Nom<br>
+<input name="nom"><br><br>
+
+Mot de passe<br>
+<input name="mdp" type="password"><br><br>
+
 <button>Connexion</button>
+
 </form>
+
 </div>
+
+</body>
+</html>
