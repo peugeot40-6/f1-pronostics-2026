@@ -55,27 +55,8 @@ def accueil():
 # PAGE PRONOSTICS
 @app.route("/pronostic", methods=["GET", "POST"])
 @login_required
-def pronostic():
-
-    if request.method == "POST":
-        gp = request.form.get("gp")
-        p1 = request.form.get("p1")
-        p2 = request.form.get("p2")
-        p3 = request.form.get("p3")
-
-        sheet = connect_sheet()
-
-        sheet.append_row([
-            gp,
-            session["user"],
-            p1,
-            p2,
-            p3
-        ])
-
-        return "Pronostic enregistré ✅"
-
-    return render_template("pronostic.html")
+# sheet = connect_sheet()
+# sheet.append_row(...)
 # PAGE CLASSEMENT
 @app.route("/classement")
 @login_required
