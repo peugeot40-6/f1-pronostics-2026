@@ -1,10 +1,8 @@
-import gspread
-from oauth2client.service_account import ServiceAccountCredentials
 from flask import Flask, render_template, request, redirect, session, url_for
 from functools import wraps
 
 app = Flask(__name__)
-app.secret_key = "supersecretkey"
+app.secret_key = "cle-ultra-securisee-123456789"
 
 # UTILISATEURS
 users = {
@@ -12,10 +10,12 @@ users = {
     "Amandine": "amandine123",
     "Sacha": "sacha123"
 }
-# GOOGLE SHEET
+
+# GOOGLE SHEET (désactivé pour éviter crash)
 def connect_sheet():
-return None
-    
+    return None
+
+
 # DECORATEUR LOGIN
 def login_required(f):
     @wraps(f)
@@ -32,11 +32,10 @@ def login():
     erreur = None
 
     if request.method == "POST":
-        nom = request.form.get("nom")
-        mdp = request.form.get("mdp")
+        nom = request.form.get("nom", "")
+        mdp = request.form.get("mdp", "")
 
-        if nom:
-            nom = nom.title()
+        nom = nom.title()
 
         if nom in users and users[nom] == mdp:
             session["user"] = nom
@@ -46,17 +45,32 @@ def login():
 
     return render_template("index.html", erreur=erreur)
 
+
 # PAGE ACCUEIL
 @app.route("/accueil")
 @login_required
 def accueil():
     return render_template("accueil.html", user=session["user"])
 
-# PAGE PRONOSTICS
+
+# PAGE PRONOSTIC
 @app.route("/pronostic", methods=["GET", "POST"])
 @login_required
-# sheet = connect_sheet()
-# sheet.append_row(...)
+def pronostic():
+
+    if request.method == "POST":
+        gp = request.form.get("gp")
+        p1 = request.form.get("p1")
+        p2 = request.form.get("p2")
+        p3 = request.form.get("p3")
+
+        print("Pronostic reçu :", gp, p1, p2, p3)
+
+        return redirect("/accueil")
+
+    return render_template("pronostic.html")
+
+
 # PAGE CLASSEMENT
 @app.route("/classement")
 @login_required
@@ -88,4 +102,4 @@ def logout():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(host="0.0.0.0", port=10000)
