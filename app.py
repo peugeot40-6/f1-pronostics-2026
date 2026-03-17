@@ -27,8 +27,11 @@ def login():
     erreur = None
 
     if request.method == "POST":
-        nom = request.form["nom"].title()
-        mdp = request.form["mdp"]
+        nom = request.form.get("nom")
+        mdp = request.form.get("mdp")
+
+        if nom:
+            nom = nom.title()
 
         if nom in users and users[nom] == mdp:
             session["user"] = nom
@@ -37,7 +40,6 @@ def login():
             erreur = "Identifiants incorrects"
 
     return render_template("index.html", erreur=erreur)
-
 
 # PAGE ACCUEIL
 @app.route("/accueil")
