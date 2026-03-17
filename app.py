@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect, session, url_for
+from functools import wraps
 
 app = Flask(__name__)
 app.secret_key = "supersecretkey"
@@ -9,6 +10,16 @@ users = {
     "Amandine": "amandine123",
     "Sacha": "sacha123"
 }
+
+# DECORATEUR LOGIN
+def login_required(f):
+    @wraps(f)
+    def wrapper(*args, **kwargs):
+        if "user" not in session:
+            return redirect("/")
+        return f(*args, **kwargs)
+    return wrapper
+
 
 # PAGE LOGIN
 @app.route("/", methods=["GET", "POST"])
@@ -30,16 +41,8 @@ def login():
 
 # PAGE ACCUEIL
 @app.route("/accueil")
+@login_required
 def accueil():
-    from functools import wraps
-
-def login_required(f):
-    @wraps(f)
-    def wrapper(*args, **kwargs):
-        if "user" not in session:
-            return redirect("/")
-        return f(*args, **kwargs)
-    return wrapper
     return render_template("accueil.html", user=session["user"])
 
 
@@ -47,17 +50,15 @@ def login_required(f):
 @app.route("/classement")
 @login_required
 def classement():
-    if "user" not in session:
-        return redirect("/")
     return render_template("classement_general.html")
 
 
 # PAGE HISTORIQUE
 @app.route("/historique")
+@login_required
 def historique():
-    if "user" not in session:
-        return redirect("/")
     return render_template("historique.html")
+
 
 # ADMIN
 @app.route("/admin")
@@ -67,6 +68,7 @@ def admin():
         return "Accès refusé"
     return "Page admin"
 
+
 # LOGOUT
 @app.route("/logout")
 def logout():
@@ -75,5 +77,4 @@ def logout():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)_ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True)ebug=True)
