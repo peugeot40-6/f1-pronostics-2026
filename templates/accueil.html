@@ -2,7 +2,7 @@
 <html>
 <head>
 <title>Accueil</title>
-<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+<link rel="stylesheet" href="/static/style.css">
 </head>
 
 <body>
@@ -10,10 +10,9 @@
 <div class="container">
 
 <h2>Bienvenue {{ user }} 👋</h2>
-
+<a href="/logout"><button>Déconnexion</button></a>
 <a href="/classement"><button>Classement</button></a>
 <a href="/historique"><button>Historique</button></a>
-<a href="/logout"><button>Déconnexion</button></a>
 
 </div>
 
