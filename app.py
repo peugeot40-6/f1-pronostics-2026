@@ -47,6 +47,20 @@ def login():
 def accueil():
     return render_template("accueil.html", user=session["user"])
 
+# PAGE PRONOSTICS
+@app.route("/pronostic", methods=["GET", "POST"])
+@login_required
+def pronostic():
+
+    if request.method == "POST":
+        gp = request.form.get("gp")
+        p1 = request.form.get("p1")
+        p2 = request.form.get("p2")
+        p3 = request.form.get("p3")
+
+        return f"Pronostic enregistré pour {session['user']}"
+
+    return render_template("pronostic.html")
 
 # PAGE CLASSEMENT
 @app.route("/classement")
