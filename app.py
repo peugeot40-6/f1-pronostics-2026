@@ -14,16 +14,7 @@ users = {
 }
 # GOOGLE SHEET
 def connect_sheet():
-    scope = [
-        "https://spreadsheets.google.com/feeds",
-        "https://www.googleapis.com/auth/drive"
-    ]
-
-    creds = ServiceAccountCredentials.from_json_keyfile_name("credentials.json", scope)
-    client = gspread.authorize(creds)
-
-    sheet = client.open("Pronostics F1").sheet1
-    return sheet
+return None
     
 # DECORATEUR LOGIN
 def login_required(f):
