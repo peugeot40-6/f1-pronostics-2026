@@ -31,13 +31,22 @@ def login():
 # PAGE ACCUEIL
 @app.route("/accueil")
 def accueil():
-    if "user" not in session:
+    from functools import wraps
+
+def login_required(f):
+    @wraps(f)
+    def wrapper(*args, **kwargs):
+        if "user" not in session:
+            return redirect("/")
+        return f(*args, **kwargs)
+    return wrapper
         return redirect("/")
     return render_template("accueil.html", user=session["user"])
 
 
 # PAGE CLASSEMENT
 @app.route("/classement")
+@login_required
 def classement():
     if "user" not in session:
         return redirect("/")
@@ -51,6 +60,13 @@ def historique():
         return redirect("/")
     return render_template("historique.html")
 
+# ADMIN
+@app.route("/admin")
+@login_required
+def admin():
+    if session["user"] != "Padre":
+        return "Accès refusé"
+    return "Page admin"
 
 # LOGOUT
 @app.route("/logout")
