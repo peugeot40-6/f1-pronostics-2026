@@ -40,7 +40,6 @@ def login_required(f):
             return redirect("/")
         return f(*args, **kwargs)
     return wrapper
-        return redirect("/")
     return render_template("accueil.html", user=session["user"])
 
 
