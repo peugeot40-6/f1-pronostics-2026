@@ -4,9 +4,20 @@ import pandas as pd
 app = Flask(__name__)
 
 # PAGE ACCUEIL
-@app.route("/")
-def index():
-    return render_template("index.html")
+@app.route("/", methods=["GET", "POST"])
+def login():
+    erreur = None
+
+    if request.method == "POST":
+        nom = request.form["nom"]
+        mdp = request.form["mdp"]
+
+        if nom != "Padre" or mdp != "padre123":
+            erreur = "Identifiants incorrects"
+        else:
+            return "Connexion réussie 🎉"
+
+    return render_template("index.html", erreur=erreur)
 
 
 # PAGE HISTORIQUE
