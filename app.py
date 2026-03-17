@@ -45,7 +45,7 @@ def login():
 @app.route("/accueil")
 @login_required
 def accueil():
-    return "ACCUEIL OK"
+    return render_template("accueil.html", user=session["user"])
 
 
 # PAGE CLASSEMENT
