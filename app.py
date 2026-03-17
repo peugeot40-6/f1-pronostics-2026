@@ -1,22 +1,17 @@
-from flask import Flask, render_template, request, redirect, session, url_for
+from flask import Flask, render_template, request, redirect, session
 from functools import wraps
 
 app = Flask(__name__)
-app.secret_key = "cle-ultra-securisee-123456789"
+app.secret_key = "cle-ultra-securisee-123"
 
-# UTILISATEURS
+# USERS
 users = {
     "Padre": "padre123",
     "Amandine": "amandine123",
     "Sacha": "sacha123"
 }
 
-# GOOGLE SHEET (désactivé pour éviter crash)
-def connect_sheet():
-    return None
-
-
-# DECORATEUR LOGIN
+# LOGIN REQUIRED
 def login_required(f):
     @wraps(f)
     def wrapper(*args, **kwargs):
@@ -26,16 +21,14 @@ def login_required(f):
     return wrapper
 
 
-# PAGE LOGIN
+# LOGIN
 @app.route("/", methods=["GET", "POST"])
 def login():
     erreur = None
 
     if request.method == "POST":
-        nom = request.form.get("nom", "")
+        nom = request.form.get("nom", "").title()
         mdp = request.form.get("mdp", "")
-
-        nom = nom.title()
 
         if nom in users and users[nom] == mdp:
             session["user"] = nom
@@ -46,52 +39,21 @@ def login():
     return render_template("index.html", erreur=erreur)
 
 
-# PAGE ACCUEIL
+# ACCUEIL
 @app.route("/accueil")
 @login_required
 def accueil():
     return render_template("accueil.html", user=session["user"])
 
 
-# PAGE PRONOSTIC
+# PRONOSTIC
 @app.route("/pronostic", methods=["GET", "POST"])
 @login_required
 def pronostic():
-
     if request.method == "POST":
-        gp = request.form.get("gp")
-        p1 = request.form.get("p1")
-        p2 = request.form.get("p2")
-        p3 = request.form.get("p3")
-
-        print("Pronostic reçu :", gp, p1, p2, p3)
-
+        print("Form reçu")
         return redirect("/accueil")
-
     return render_template("pronostic.html")
-
-
-# PAGE CLASSEMENT
-@app.route("/classement")
-@login_required
-def classement():
-    return render_template("classement_general.html")
-
-
-# PAGE HISTORIQUE
-@app.route("/historique")
-@login_required
-def historique():
-    return render_template("historique.html")
-
-
-# ADMIN
-@app.route("/admin")
-@login_required
-def admin():
-    if session["user"] != "Padre":
-        return "Accès refusé"
-    return "Page admin"
 
 
 # LOGOUT
@@ -99,7 +61,3 @@ def admin():
 def logout():
     session.clear()
     return redirect("/")
-
-
-if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=10000)
