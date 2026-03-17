@@ -1,3 +1,5 @@
+import gspread
+from oauth2client.service_account import ServiceAccountCredentials
 from flask import Flask, render_template, request, redirect, session, url_for
 from functools import wraps
 
@@ -10,7 +12,19 @@ users = {
     "Amandine": "amandine123",
     "Sacha": "sacha123"
 }
+# GOOGLE SHEET
+def connect_sheet():
+    scope = [
+        "https://spreadsheets.google.com/feeds",
+        "https://www.googleapis.com/auth/drive"
+    ]
 
+    creds = ServiceAccountCredentials.from_json_keyfile_name("credentials.json", scope)
+    client = gspread.authorize(creds)
+
+    sheet = client.open("Pronostics F1").sheet1
+    return sheet
+    
 # DECORATEUR LOGIN
 def login_required(f):
     @wraps(f)
@@ -58,10 +72,19 @@ def pronostic():
         p2 = request.form.get("p2")
         p3 = request.form.get("p3")
 
-        return f"Pronostic enregistré pour {session['user']}"
+        sheet = connect_sheet()
+
+        sheet.append_row([
+            gp,
+            session["user"],
+            p1,
+            p2,
+            p3
+        ])
+
+        return "Pronostic enregistré ✅"
 
     return render_template("pronostic.html")
-
 # PAGE CLASSEMENT
 @app.route("/classement")
 @login_required
