@@ -17,26 +17,29 @@ users = {
 
 # GOOGLE SHEETS CONNECTION
 def connect_sheet():
-    creds_json = os.getenv("GOOGLE_CREDENTIALS")
+    try:
+        creds_json = os.getenv("GOOGLE_CREDENTIALS")
 
-    if not creds_json:
-        print("❌ Pas de credentials Google")
+        if not creds_json:
+            print("❌ GOOGLE_CREDENTIALS manquant")
+            return None
+
+        creds_dict = json.loads(creds_json)
+
+        scope = [
+            "https://spreadsheets.google.com/feeds",
+            "https://www.googleapis.com/auth/drive"
+        ]
+
+        creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_dict, scope)
+        client = gspread.authorize(creds)
+
+        sheet = client.open("F1_pronostics").sheet1
+        return sheet
+
+    except Exception as e:
+        print("❌ ERREUR GOOGLE SHEETS :", e)
         return None
-
-    creds_dict = json.loads(creds_json)
-
-    scope = [
-        "https://spreadsheets.google.com/feeds",
-        "https://www.googleapis.com/auth/drive"
-    ]
-
-    creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_dict, scope)
-    client = gspread.authorize(creds)
-
-    sheet = client.open("F1_pronostics").sheet1
-    return sheet
-
-
 # LOGIN REQUIRED
 def login_required(f):
     @wraps(f)
