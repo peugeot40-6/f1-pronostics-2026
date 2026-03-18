@@ -34,7 +34,7 @@ def connect_sheet():
         creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_dict, scope)
         client = gspread.authorize(creds)
 
-        sheet = client.open("F1_pronostics").sheet1
+        sheet = client.open("pronostic F1").sheet1
         return sheet
 
     except Exception as e:
