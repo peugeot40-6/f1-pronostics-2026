@@ -1,5 +1,9 @@
 from flask import Flask, render_template, request, redirect, session
 from functools import wraps
+import os
+import json
+import gspread
+from oauth2client.service_account import ServiceAccountCredentials
 
 app = Flask(__name__)
 app.secret_key = "cle-ultra-securisee-123"
@@ -10,6 +14,28 @@ users = {
     "Amandine": "amandine123",
     "Sacha": "sacha123"
 }
+
+# GOOGLE SHEETS CONNECTION
+def connect_sheet():
+    creds_json = os.getenv("GOOGLE_CREDENTIALS")
+
+    if not creds_json:
+        print("❌ Pas de credentials Google")
+        return None
+
+    creds_dict = json.loads(creds_json)
+
+    scope = [
+        "https://spreadsheets.google.com/feeds",
+        "https://www.googleapis.com/auth/drive"
+    ]
+
+    creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_dict, scope)
+    client = gspread.authorize(creds)
+
+    sheet = client.open("F1_pronostics").sheet1
+    return sheet
+
 
 # LOGIN REQUIRED
 def login_required(f):
@@ -50,9 +76,26 @@ def accueil():
 @app.route("/pronostic", methods=["GET", "POST"])
 @login_required
 def pronostic():
+
     if request.method == "POST":
-        print("Form reçu")
+        gp = request.form.get("gp")
+        p1 = request.form.get("p1")
+        p2 = request.form.get("p2")
+        p3 = request.form.get("p3")
+
+        sheet = connect_sheet()
+
+        if sheet:
+            sheet.append_row([
+                session["user"],
+                gp,
+                p1,
+                p2,
+                p3
+            ])
+
         return redirect("/accueil")
+
     return render_template("pronostic.html")
 
 
