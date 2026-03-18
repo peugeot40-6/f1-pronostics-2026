@@ -1,23 +1,20 @@
-<link rel="stylesheet" href="/static/style.css">
-
-<div class="container">
-<h2>Pronostic F1</h2>
+<h1>Faire un pronostic</h1>
 
 <form method="post">
 
-Grand Prix<br>
-<input name="gp"><br><br>
+    <label>Grand Prix :</label><br>
+    <select name="gp" required>
+        <option value="">-- Choisir un GP --</option>
+        {% for gp in gps %}
+            <option value="{{ gp }}">{{ gp }}</option>
+        {% endfor %}
+    </select><br><br>
 
-1er<br>
-<input name="p1"><br><br>
+    <label>1er :</label><br>
+    <select name="p1" required>
+        {% for pilote in pilotes %}
+            <option value="{{ pilote }}">{{ pilote }}</option>
+        {% endfor %}
+    </select><br><br>
 
-2e<br>
-<input name="p2"><br><br>
-
-3e<br>
-<input name="p3"><br><br>
-
-<button type="submit">Valider</button>
-
-</form>
-</div>
+    <label>2
