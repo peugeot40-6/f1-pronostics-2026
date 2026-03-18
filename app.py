@@ -80,6 +80,22 @@ def accueil():
 @login_required
 def pronostic():
 
+    gps = [
+       "Australie", "Japon", "Chine", "Miami", "Barcelone", "Monaco",
+    "Canada", "Espagne", "Autriche", "Grande-Bretagne", "Hongrie",
+    "Belgique", "Pays-Bas", "Italie", "Azerbaidjan", "Singapour",
+    "Etats-Unis", "Mexique", "Bresil", "Las Vegas", "Qatar", "Abu Dhabi"
+    ]
+
+    pilotes = [
+       "Max Verstappen", "Lewis Hamilton", "Charles Leclerc", "Kimi Antonelli",
+    "George Russell", "Carlos Sainz", "Lando Norris", "Oscar Piastri",
+    "Fernando Alonso", "Esteban Ocon", "Pierre Gasly", "Lance Stroll",
+    "Gabriel Bortoleto", "Nico Hulkenberg", "Oliver Bearman",
+    "Franco Colapinto", "Liam Lawson", "Alexander Albon",
+    "Isack Hadjar", "Valteri Bottas", "Sergio Perez", "Arvid Lindblad",
+    ]
+
     if request.method == "POST":
         gp = request.form.get("gp")
         p1 = request.form.get("p1")
@@ -87,19 +103,12 @@ def pronostic():
         p3 = request.form.get("p3")
 
         sheet = connect_sheet()
-
         if sheet:
-            sheet.append_row([
-                session["user"],
-                gp,
-                p1,
-                p2,
-                p3
-            ])
+            sheet.append_row([session["user"], gp, p1, p2, p3])
 
         return redirect("/accueil")
 
-    return render_template("pronostic.html")
+    return render_template("pronostic.html", gps=gps, pilotes=pilotes)
 
 
 # LOGOUT
