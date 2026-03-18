@@ -12,9 +12,31 @@
 
     <label>1er :</label><br>
     <select name="p1" required>
+        <option value="">-- Choisir --</option>
         {% for pilote in pilotes %}
             <option value="{{ pilote }}">{{ pilote }}</option>
         {% endfor %}
     </select><br><br>
 
-    <label>2
+    <label>2e :</label><br>
+    <select name="p2" required>
+        <option value="">-- Choisir --</option>
+        {% for pilote in pilotes %}
+            <option value="{{ pilote }}">{{ pilote }}</option>
+        {% endfor %}
+    </select><br><br>
+
+    <label>3e :</label><br>
+    <select name="p3" required>
+        <option value="">-- Choisir --</option>
+        {% for pilote in pilotes %}
+            <option value="{{ pilote }}">{{ pilote }}</option>
+        {% endfor %}
+    </select><br><br>
+
+    <button type="submit">Valider</button>
+
+</form>
+
+<br>
+<a href="/accueil">Retour</a>
