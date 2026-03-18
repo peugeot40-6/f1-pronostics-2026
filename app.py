@@ -110,6 +110,32 @@ def pronostic():
 
     return render_template("pronostic.html", gps=gps, pilotes=pilotes)
 
+# CALCUL DES POINTS
+def calcul_points_f1(pronos, resultats):
+    points_f1 = {
+        1: 25, 2: 18, 3: 15, 4: 12, 5: 10,
+        6: 8, 7: 6, 8: 4, 9: 2, 10: 1
+    }
+
+    points = 0
+
+    # Points position
+    for pilote in pronos:
+        if pilote in resultats:
+            position = resultats.index(pilote) + 1
+            points += points_f1.get(position, 0)
+
+    # Bonus podium
+    podium_reel = resultats[:3]
+
+    if pronos == podium_reel:
+        bonus = 10
+    elif set(pronos) == set(podium_reel):
+        bonus = 3
+    else:
+        bonus = 0
+
+    return points, bonus, points + bonus
 
 # LOGOUT
 @app.route("/logout")
