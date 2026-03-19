@@ -164,36 +164,6 @@ def calcul_points_f1(pronos, resultats):
 
     return points + bonus
 
-@app.route("/ajouter_resultat", methods=["GET", "POST"])
-@login_required
-def ajouter_resultat():
-
-    if session["user"] != "Padre":
-        return "Accès refusé"
-
-    _, sheet_resultats = connect_sheets()
-
-    if request.method == "POST":
-        gp = request.form.get("gp")
-
-        resultats = [
-            request.form.get(f"pos{i}")
-            for i in range(1, 11)
-        ]
-
-        #  supprimer ancien GP si existe
-        data = sheet_resultats.get_all_records()
-        for i, row in enumerate(data, start=2):
-            if row["GP"] == gp:
-                sheet_resultats.delete_rows(i)
-                break
-
-        sheet_resultats.append_row([gp] + resultats)
-
-        return redirect("/classement")
-
-    return render_template("ajouter_resultat.html")
-    
 # CLASSEMENT
 
 @app.route("/classement")
