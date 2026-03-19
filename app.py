@@ -105,6 +105,7 @@ def pronostic():
         return redirect("/accueil")
 
     return render_template("pronostic.html", gps=gps, pilotes=pilotes)
+    
 🏁 2️⃣ ENCODER LES RÉSULTATS GP
 🎯 Objectif
 
@@ -140,6 +141,7 @@ def ajouter_resultat():
         return redirect("/classement")
 
     return render_template("ajouter_resultat.html")
+    
 🧩 HTML ajouter_resultat.html
 <h1>Encoder résultats GP</h1>
 
@@ -153,6 +155,7 @@ def ajouter_resultat():
 
     <button type="submit">Valider</button>
 </form>
+
 🏆 3️⃣ CLASSEMENT AUTOMATIQUE
 
 👉 on reprend TON système exact (F1 + bonus)
@@ -247,6 +250,7 @@ def classement():
     classement = sorted(scores.items(), key=lambda x: x[1], reverse=True)
 
     return render_template("classement_general.html", classement=classement)
+    
 🎯 RÉSULTAT FINAL
 
 👉 Ton app fait maintenant :
