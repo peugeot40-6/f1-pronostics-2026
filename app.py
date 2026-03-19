@@ -107,7 +107,7 @@ def pronostic():
     return render_template("pronostic.html", gps=gps, pilotes=pilotes)
     
 # ENCODER LES RÉSULTATS GP
- Objectif
+Objectif
 
 👉 Encoder les résultats du top 10
 
