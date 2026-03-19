@@ -106,7 +106,7 @@ def pronostic():
 
     return render_template("pronostic.html", gps=gps, pilotes=pilotes)
     
-🏁 2️⃣ ENCODER LES RÉSULTATS GP
+🏁️⃣  ENCODER LES RÉSULTATS GP
 🎯 Objectif
 
 👉 Encoder les résultats du top 10
@@ -156,7 +156,7 @@ def ajouter_resultat():
     <button type="submit">Valider</button>
 </form>
 
-🏆 3️⃣ CLASSEMENT AUTOMATIQUE
+🏆️⃣ CLA SSEMENT AUTOMATIQUE
 
 👉 on reprend TON système exact (F1 + bonus)
 
