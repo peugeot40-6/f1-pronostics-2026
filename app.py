@@ -107,11 +107,7 @@ def pronostic():
     return render_template("pronostic.html", gps=gps, pilotes=pilotes)
     
 # ENCODER LES RÉSULTATS GP
-Objectif
 
-# Encoder les résultats du top 10
-
-Nouvelle route /ajouter_resultat
 @app.route("/ajouter_resultat", methods=["GET", "POST"])
 @login_required
 def ajouter_resultat():
@@ -144,9 +140,6 @@ def ajouter_resultat():
     
 # CLASSEMENT AUTOMATIQUE
 
-on reprend TON système exact (F1 + bonus)
-
-Fonction calcul (inchangée)
 def calcul_points_f1(pronos, resultats):
     points_f1 = {
         1: 25, 2: 18, 3: 15, 4: 12, 5: 10,
@@ -201,7 +194,8 @@ def ajouter_resultat():
 
     return render_template("ajouter_resultat.html")
     
-Route classement
+# CLASSEMENT
+
 @app.route("/classement")
 @login_required
 def classement():
