@@ -107,7 +107,7 @@ def pronostic():
     return render_template("pronostic.html", gps=gps, pilotes=pilotes)
     
 # ENCODER LES RÉSULTATS GP
-🎯 Objectif
+ Objectif
 
 👉 Encoder les résultats du top 10
 
@@ -251,12 +251,12 @@ def classement():
 
     return render_template("classement_general.html", classement=classement)
     
-🎯 RÉSULTAT FINAL
+# RÉSULTAT FINAL
 
 👉 Ton app fait maintenant :
 
 ✔ 1 seul pronostic par joueur / GP 🔒
-✔ encodage résultats admin 🏁
+✔ encodage résultats admin 
 ✔ calcul automatique 🧠
 ✔ classement dynamique 🏆
 
@@ -274,7 +274,7 @@ empêcher modification après deadline
 
 👉 “on ajoute le détail des points”
 ou
-👉 “on bloque après deadline” 🚦
+👉 “on bloque après deadline” 
 # CALCUL DES POINTS
 def calcul_points_f1(pronos, resultats):
     points_f1 = {
