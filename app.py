@@ -16,7 +16,7 @@ users = {
 }
 
 # GOOGLE SHEETS CONNECTION
-def connect_sheet():
+def connect_sheets():
     try:
         creds_json = os.getenv("GOOGLE_CREDENTIALS")
 
