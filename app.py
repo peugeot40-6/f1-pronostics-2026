@@ -108,7 +108,7 @@ def pronostic():
 
         sheet_pronos, _ = connect_sheets()
         data = sheet_pronos.get_all_records()
-    if not data:
+        if not data:
         data = []
        
         #  Vérifier doublon
