@@ -22,7 +22,7 @@ def connect_sheets():
 
         if not creds_json:
             print("❌ GOOGLE_CREDENTIALS manquant")
-            return None
+            return None, None
 
         creds_dict = json.loads(creds_json)
 
@@ -34,12 +34,17 @@ def connect_sheets():
         creds = ServiceAccountCredentials.from_json_keyfile_dict(creds_dict, scope)
         client = gspread.authorize(creds)
 
-        sheet = client.open("pronostic F1").sheet1
-        return sheet
+        sheet = client.open("pronostic F1")
+
+        feuille_pronos = sheet.worksheet("pronostics")
+        feuille_resultats = sheet.worksheet("resultats")
+
+        return feuille_pronos, feuille_resultats
 
     except Exception as e:
         print("❌ ERREUR GOOGLE SHEETS :", e)
-        return None
+        return None, None
+
 # LOGIN REQUIRED
 def login_required(f):
     @wraps(f)
@@ -91,7 +96,7 @@ def pronostic():
     pilotes = [
     "Verstappen", "Hadjar", "Leclerc", "Hamilton", "Russell",
     "Antonelli", "Alonso", "Stroll", "Norris", "Piastri",
-    "Gasly", "Colapinto", "Bearman", "Ocon", "Lawson", "Lindblad"
+    "Gasly", "Colapinto", "Bearman", "Ocon", "Lawson", "Lindblad",
     "Albon", "Sainz", "Bottas", "Perez",
     "Hulkenberg", "Bortoleto"
 ]
@@ -213,33 +218,6 @@ def classement():
 
     return render_template("classement_general.html", classement=classement)
     
-# CALCUL DES POINTS
-def calcul_points_f1(pronos, resultats):
-    points_f1 = {
-        1: 25, 2: 18, 3: 15, 4: 12, 5: 10,
-        6: 8, 7: 6, 8: 4, 9: 2, 10: 1
-    }
-
-    points = 0
-
-    # Points position
-    for pilote in pronos:
-        if pilote in resultats:
-            position = resultats.index(pilote) + 1
-            points += points_f1.get(position, 0)
-
-    # Bonus podium
-    podium_reel = resultats[:3]
-
-    if pronos == podium_reel:
-        bonus = 10
-    elif set(pronos) == set(podium_reel):
-        bonus = 3
-    else:
-        bonus = 0
-
-    return points, bonus, points + bonus
-
 # LOGOUT
 @app.route("/logout")
 def logout():
