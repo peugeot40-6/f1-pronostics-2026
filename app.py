@@ -37,7 +37,7 @@ def connect_sheets():
         sheet = client.open("pronostic F1")
 
         feuille_pronos = sheet.worksheet("pronostic F1")
-        feuille_resultats = sheet.worksheet("resultats")
+        feuille_resultats = sheet.worksheet("résultats")
 
         return feuille_pronos, feuille_resultats
 
