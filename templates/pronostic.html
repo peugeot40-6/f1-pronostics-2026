@@ -1,42 +1,40 @@
-<h1>Faire un pronostic</h1>
+<h2>Faire un pronostic</h2>
 
-<form method="post">
+<form method="POST">
 
-    <label>Grand Prix :</label><br>
-    <select name="gp" required>
-        <option value="">-- Choisir un GP --</option>
-        {% for gp in gps %}
-            <option value="{{ gp }}">{{ gp }}</option>
-        {% endfor %}
-    </select><br><br>
+<label>Grand Prix :</label>
+<select name="gp" required>
+    <option value="">-- Choisir un GP --</option>
+    {% for gp in gps %}
+        <option value="{{ gp }}">{{ gp }}</option>
+    {% endfor %}
+</select>
 
-    <label>1er :</label><br>
-    <select name="p1" required>
-        <option value="">-- Choisir --</option>
-        {% for pilote in pilotes %}
-            <option value="{{ pilote }}">{{ pilote }}</option>
-        {% endfor %}
-    </select><br><br>
+<br><br>
 
-    <label>2e :</label><br>
-    <select name="p2" required>
-        <option value="">-- Choisir --</option>
-        {% for pilote in pilotes %}
-            <option value="{{ pilote }}">{{ pilote }}</option>
-        {% endfor %}
-    </select><br><br>
+<label>1er :</label>
+<select name="p1">
+    {% for p in pilotes %}
+        <option value="{{ p }}">{{ p }}</option>
+    {% endfor %}
+</select>
 
-    <label>3e :</label><br>
-    <select name="p3" required>
-        <option value="">-- Choisir --</option>
-        {% for pilote in pilotes %}
-            <option value="{{ pilote }}">{{ pilote }}</option>
-        {% endfor %}
-    </select><br><br>
+<label>2e :</label>
+<select name="p2">
+    {% for p in pilotes %}
+        <option value="{{ p }}">{{ p }}</option>
+    {% endfor %}
+</select>
 
-    <button type="submit">Valider</button>
+<label>3e :</label>
+<select name="p3">
+    {% for p in pilotes %}
+        <option value="{{ p }}">{{ p }}</option>
+    {% endfor %}
+</select>
+
+<br><br>
+
+<button type="submit">Valider</button>
 
 </form>
-
-<br>
-<a href="/accueil">Retour</a>
