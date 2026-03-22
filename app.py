@@ -126,36 +126,32 @@ def pronostic():
     
 # ENCODER LES RÉSULTATS GP
 
-@app.route("/ajouter_resultat", methods=["GET", "POST"])
+@app.route("/resultats", methods=["GET", "POST"])
 @login_required
-def ajouter_resultat():
-
+def resultats():
     if session["user"] != "Padre":
         return "Accès refusé"
 
-    _, sheet_resultats = connect_sheets()
+    feuille_pronos, feuille_resultats = connecter_feuilles()
 
     if request.method == "POST":
         gp = request.form.get("gp")
+        p1 = request.form.get("p1")
+        p2 = request.form.get("p2")
+        p3 = request.form.get("p3")
+        p4 = request.form.get("p4")
+        p5 = request.form.get("p5")
+        p6 = request.form.get("p6")
+        p7 = request.form.get("p7")
+        p8 = request.form.get("p8")
+        p9 = request.form.get("p9")
+        p10 = request.form.get("p10")
+        
+        # Enregistrer les résultats
+        feuille_resultats.append_row([gp, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10 ])
 
-        resultats = [
-            request.form.get(f"pos{i}")
-            for i in range(1, 11)
-        ]
+    return render_template("resultats.html")
 
-        # supprimer ancien GP si existe
-        data = sheet_resultats.get_all_records()
-        for i, row in enumerate(data, start=2):
-            if row["GP"] == gp:
-                sheet_resultats.delete_rows(i)
-                break
-
-        sheet_resultats.append_row([gp] + resultats)
-
-        return redirect("/classement")
-
-    return render_template("ajouter_resultat.html")
-    
 # CLASSEMENT AUTOMATIQUE
 
 def calcul_points_f1(pronos, resultats):
