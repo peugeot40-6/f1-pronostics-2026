@@ -80,9 +80,21 @@ def accueil():
 @login_required
 def pronostic():
 
-    gps = [...]  # ta liste actuelle
-    pilotes = [...]  # ta liste actuelle
-
+    gps =[
+    "Australie", "Chine", "Japon",
+    "Miami", "Canada", "Monaco",
+    "Barcelone", "Autriche", "Royaume-Uni",
+    "Belgique", "Hongrie", "Pays-Bas", "Italie", "Espagne",
+    "Azerbaïdjan", "Singapour", "États-Unis", "Mexique",
+    "Brésil", "Las Vegas", "Qatar", "Abu Dhabi"
+]
+    pilotes = [
+    "Verstappen", "Hadjar", "Leclerc", "Hamilton", "Russell",
+    "Antonelli", "Alonso", "Stroll", "Norris", "Piastri",
+    "Gasly", "Colapinto", "Bearman", "Ocon", "Lawson", "Lindblad"
+    "Albon", "Sainz", "Bottas", "Perez",
+    "Hulkenberg", "Bortoleto"
+]
     if request.method == "POST":
         gp = request.form.get("gp")
         p1 = request.form.get("p1")
