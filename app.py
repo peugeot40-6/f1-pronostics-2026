@@ -5,6 +5,21 @@ import os
 import json
 from google.oauth2.service_account import Credentials
 
+ gps =[
+    "Australie", "Chine", "Japon",
+    "Miami", "Canada", "Monaco",
+    "Barcelone", "Autriche", "Royaume-Uni",
+    "Belgique", "Hongrie", "Pays-Bas", "Italie", "Espagne",
+    "Azerbaïdjan", "Singapour", "États-Unis", "Mexique",
+    "Brésil", "Las Vegas", "Qatar", "Abu Dhabi"
+]
+    pilotes = [
+    "Verstappen", "Hadjar", "Leclerc", "Hamilton", "Russell",
+    "Antonelli", "Alonso", "Stroll", "Norris", "Piastri",
+    "Gasly", "Colapinto", "Bearman", "Ocon", "Lawson", "Lindblad",
+    "Albon", "Sainz", "Bottas", "Perez",
+    "Hulkenberg", "Bortoleto"
+]
 
 def connecter_feuilles():
     creds_json = os.environ.get("GOOGLE_CREDENTIALS")
@@ -176,7 +191,7 @@ def resultats():
         # Enregistrer les résultats
         feuille_resultats.append_row([gp, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10 ])
 
-    return render_template("resultats.html")
+    return render_template("resultats.html", gps=GRANDS_PRIX, pilotes=PILOTES)
 
 # CLASSEMENT AUTOMATIQUE
 
