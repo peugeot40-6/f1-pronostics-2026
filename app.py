@@ -1,8 +1,31 @@
 from flask import Flask, render_template, request, redirect, session
 from functools import wraps
+import gspread
 import os
 import json
-import gspread
+from google.oauth2.service_account import Credentials
+
+
+def connecter_feuilles():
+    creds_json = os.environ.get("GOOGLE_CREDENTIALS")
+
+    if not creds_json:
+        print("❌ Pas de credentials Google")
+        return None, None
+
+    creds_dict = json.loads(creds_json)
+
+    scopes = ["https://www.googleapis.com/auth/spreadsheets"]
+
+    creds = Credentials.from_service_account_info(creds_dict, scopes=scopes)
+    client = gspread.authorize(creds)
+
+    sheet = client.open("pronostic F1")
+
+    feuille_pronos = sheet.worksheet("pronostic")
+    feuille_resultats = sheet.worksheet("resultats")
+
+    return feuille_pronos, feuille_resultats
 from oauth2client.service_account import ServiceAccountCredentials
 
 app = Flask(__name__)
