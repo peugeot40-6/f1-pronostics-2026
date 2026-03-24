@@ -5,7 +5,7 @@ import os
 import json
 from google.oauth2.service_account import Credentials
 
- gps =[
+gps =[
     "Australie", "Chine", "Japon",
     "Miami", "Canada", "Monaco",
     "Barcelone", "Autriche", "Royaume-Uni",
@@ -13,7 +13,7 @@ from google.oauth2.service_account import Credentials
     "Azerbaïdjan", "Singapour", "États-Unis", "Mexique",
     "Brésil", "Las Vegas", "Qatar", "Abu Dhabi"
 ]
-    pilotes = [
+pilotes = [
     "Verstappen", "Hadjar", "Leclerc", "Hamilton", "Russell",
     "Antonelli", "Alonso", "Stroll", "Norris", "Piastri",
     "Gasly", "Colapinto", "Bearman", "Ocon", "Lawson", "Lindblad",
