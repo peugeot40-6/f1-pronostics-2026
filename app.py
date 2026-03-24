@@ -163,7 +163,7 @@ def pronostic():
 
         return redirect("/accueil")
 
-    return render_template("pronostic.html", gps=gps, pilotes=pilotes)
+    return render_template("pronostic.html", gps=Grand Prix, pilotes=pilotes)
     
 # ENCODER LES RÉSULTATS GP
 
