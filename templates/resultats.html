@@ -1,12 +1,61 @@
-<h1>Encoder résultats GP</h1>
+<h1>Encoder les résultats du Grand Prix</h1>
 
-<form method="post">
-    GP: <input name="gp"><br><br>
+<form method="POST">
 
-    {% for i in range(1,11) %}
-        Position {{ i }} :
-        <input name="pos{{i}}"><br>
-    {% endfor %}
+    <label>Grand Prix :</label><br>
+    <select name="gp" required>
+        <option value="">-- Choisir un GP --</option>
+        {% for gp in gps %}
+            <option value="{{ gp }}">{{ gp }}</option>
+        {% endfor %}
+    </select>
+    <br><br>
 
-    <button type="submit">Valider</button>
+    <label>1er :</label><br>
+    <select name="p1">
+        {% for p in pilotes %}
+            <option value="{{ p }}">{{ p }}</option>
+        {% endfor %}
+    </select><br>
+
+    <label>2e :</label><br>
+    <select name="p2">
+        {% for p in pilotes %}
+            <option value="{{ p }}">{{ p }}</option>
+        {% endfor %}
+    </select><br>
+
+    <label>3e :</label><br>
+    <select name="p3">
+        {% for p in pilotes %}
+            <option value="{{ p }}">{{ p }}</option>
+        {% endfor %}
+    </select><br>
+
+    <label>4e :</label><br>
+    <select name="p4">
+        {% for p in pilotes %}
+            <option value="{{ p }}">{{ p }}</option>
+        {% endfor %}
+    </select><br>
+
+    <label>5e :</label><br>
+    <select name="p5">
+        {% for p in pilotes %}
+            <option value="{{ p }}">{{ p }}</option>
+        {% endfor %}
+    </select><br>
+
+    <label>Bonus :</label><br>
+    <select name="bonus">
+        {% for p in pilotes %}
+            <option value="{{ p }}">{{ p }}</option>
+        {% endfor %}
+    </select><br><br>
+
+    <button type="submit">Valider les résultats</button>
+
 </form>
+
+<br>
+<a href="/accueil">⬅ Retour accueil</a>
