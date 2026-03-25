@@ -200,7 +200,7 @@ def historique():
             joueur = prono["Joueur"]
             prediction = [prono["1er"], prono["2e"], prono["3e"]]
 
-            score = calcul_points_f1(prediction, classement_reel)
+            score = calcul_points(prediction, classement_reel)
 
             historique[gp].append({
                 "joueur": joueur,
