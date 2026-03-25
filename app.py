@@ -126,22 +126,7 @@ def accueil():
 @login_required
 def pronostic():
 
-    gps =[
-    "Australie", "Chine", "Japon",
-    "Miami", "Canada", "Monaco",
-    "Barcelone", "Autriche", "Royaume-Uni",
-    "Belgique", "Hongrie", "Pays-Bas", "Italie", "Espagne",
-    "Azerbaïdjan", "Singapour", "États-Unis", "Mexique",
-    "Brésil", "Las Vegas", "Qatar", "Abu Dhabi"
-]
-    pilotes = [
-    "Verstappen", "Hadjar", "Leclerc", "Hamilton", "Russell",
-    "Antonelli", "Alonso", "Stroll", "Norris", "Piastri",
-    "Gasly", "Colapinto", "Bearman", "Ocon", "Lawson", "Lindblad",
-    "Albon", "Sainz", "Bottas", "Perez",
-    "Hulkenberg", "Bortoleto"
-]
-    if request.method == "POST":
+   if request.method == "POST":
         gp = request.form.get("gp")
         p1 = request.form.get("p1")
         p2 = request.form.get("p2")
@@ -163,7 +148,7 @@ def pronostic():
 
         return redirect("/accueil")
 
-    return render_template("pronostic.html", gps=Grand Prix, pilotes=pilotes)
+    return render_template("pronostic.html", gps=gps, pilotes=pilotes)
     
 # ENCODER LES RÉSULTATS GP
 
@@ -191,7 +176,7 @@ def resultats():
         # Enregistrer les résultats
         feuille_resultats.append_row([gp, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10 ])
 
-    return render_template("resultats.html", gps=gp, pilotes=PILOTES)
+    return render_template("resultats.html", gps=gps, pilotes=pilotes)
 
 # CLASSEMENT AUTOMATIQUE
 
@@ -243,7 +228,7 @@ def classement():
         if not res_gp:
             continue
 
-        res = [res_gp[f"pos{i}"] for i in range(1, 11) if res_gp.get(f"pos{i}")]
+        res = [res_gp[f"P{i}"] for i in range(1, 11) if res_gp.get(f"P{i}")]
 
         points = calcul_points_f1(pr, res)
 
