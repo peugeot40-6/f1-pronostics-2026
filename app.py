@@ -213,13 +213,14 @@ def historique():
         # tri du meilleur au pire
         historique[gp].sort(key=lambda x: x["score"], reverse=True)
 
-    return render_template("historique.html", historique=historique)
 print("JOUEUR:", joueur)
 print("PRONO:", prediction)
 print("REEL:", classement_reel)
 print("SCORE:", score)
 print("------")
 
+    return render_template("historique.html", historique=historique)
+    
 # CLASSEMENT AUTOMATIQUE
 def normaliser(nom):
     return nom.lower().strip().split()[-1]
