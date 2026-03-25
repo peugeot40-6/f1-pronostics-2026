@@ -179,18 +179,21 @@ def resultats():
 
 # HISTORIQUE
 @app.route("/historique")
+@login_required
 def historique():
     feuille_pronos, feuille_resultats = connecter_feuilles()
 
     pronos = feuille_pronos.get_all_records()
     resultats = feuille_resultats.get_all_records()
+
     historique = {}
 
-        for res in resultats:
+    for res in resultats:
         gp = res["GP"]
+
         classement_reel = [
-        res["P1"], res["P2"], res["P3"], res["P4"], res["P5"],
-        res["P6"], res["P7"], res["P8"], res["P9"], res["P10"]
+            res["P1"], res["P2"], res["P3"], res["P4"], res["P5"],
+            res["P6"], res["P7"], res["P8"], res["P9"], res["P10"]
         ]
 
         historique[gp] = []
@@ -206,19 +209,12 @@ def historique():
 
             historique[gp].append({
                 "joueur": joueur,
-                "score": score
+                "points": score
             })
 
-        # tri du meilleur au pire
-        historique[gp].sort(key=lambda x: x["score"], reverse=True)
+        historique[gp].sort(key=lambda x: x["points"], reverse=True)
 
-print("JOUEUR:", joueur)
-print("PRONO:", prediction)
-print("REEL:", classement_reel)
-print("SCORE:", score)
-print("------")
-
-return render_template("historique.html", historique=historique)
+    return render_template("historique.html", historique=historique)
     
 # CLASSEMENT AUTOMATIQUE
 def normaliser(nom):
