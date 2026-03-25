@@ -151,7 +151,6 @@ def pronostic():
     return render_template("pronostic.html", gps=gps, pilotes=pilotes)
     
 # ENCODER LES RÉSULTATS GP
-
 @app.route("/resultats", methods=["GET", "POST"])
 @login_required
 def resultats():
@@ -179,7 +178,6 @@ def resultats():
     return render_template("resultats.html", gps=gps, pilotes=pilotes)
 
 # HISTORIQUE
-
 @app.route("/historique")
 def historique():
     feuille_pronos, feuille_resultats = connecter_feuilles()
@@ -202,7 +200,7 @@ def historique():
             joueur = prono["Joueur"]
             prediction = [prono["1er"], prono["2e"], prono["3e"]]
 
-            score = calcul_points(prediction, classement_reel)
+            score = calcul_points_f1(prediction, classement_reel)
 
             historique[gp].append({
                 "joueur": joueur,
@@ -241,7 +239,6 @@ def calcul_points_f1(pronos, resultats):
     return points + bonus
 
 # CLASSEMENT
-
 @app.route("/classement")
 @login_required
 def classement():
