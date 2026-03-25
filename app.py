@@ -178,8 +178,44 @@ def resultats():
 
     return render_template("resultats.html", gps=gps, pilotes=pilotes)
 
-# CLASSEMENT AUTOMATIQUE
+# HISTORIQUE
 
+@app.route("/historique")
+def historique():
+    feuille_pronos, feuille_resultats = connecter_feuilles()
+
+    pronos = feuille_pronos.get_all_records()
+    resultats = feuille_resultats.get_all_records()
+
+    historique = {}
+
+    for res in resultats:
+        gp = res["GP"]
+        classement_reel = [res["P1"], res["P2"], res["P3"]]
+
+        historique[gp] = []
+
+        for prono in pronos:
+            if prono["GP"] != gp:
+                continue
+
+            joueur = prono["Joueur"]
+            prediction = [prono["P1"], prono["P2"], prono["P3"]]
+
+            score = calcul_points(prediction, classement_reel)
+
+            historique[gp].append({
+                "joueur": joueur,
+                "score": score
+            })
+
+        # tri du meilleur au pire
+        historique[gp].sort(key=lambda x: x["score"], reverse=True)
+
+    return render_template("historique.html", historique=historique)
+    
+
+# CLASSEMENT AUTOMATIQUE
 def calcul_points_f1(pronos, resultats):
     points_f1 = {
         1: 25, 2: 18, 3: 15, 4: 12, 5: 10,
