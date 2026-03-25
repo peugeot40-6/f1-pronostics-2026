@@ -221,7 +221,7 @@ def classement():
         joueur = prono["Joueur"]
         gp = prono["GP"]
 
-        pr = [prono["P1"], prono["P2"], prono["P3"]]
+        pr = [prono["1er"], prono["2e"], prono["3e"]]
 
         res_gp = next((r for r in resultats if r["GP"] == gp), None)
 
