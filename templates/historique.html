@@ -1,5 +1,35 @@
-<h2>Historique</h2>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Historique</title>
+</head>
+<body>
 
-<p>Historique des pronostics à venir...</p>
+<h1>📜 Historique des Grands Prix</h1>
 
-<a href="/accueil">Retour</a>
+{% for gp, joueurs in historique.items() %}
+    <h2>{{ gp }}</h2>
+
+    <table border="1">
+        <tr>
+            <th>Position</th>
+            <th>Joueur</th>
+            <th>Points</th>
+        </tr>
+
+        {% for j in joueurs %}
+        <tr>
+            <td>{{ loop.index }}</td>
+            <td>{{ j.joueur }}</td>
+            <td>{{ j.score }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <br>
+{% endfor %}
+
+<a href="/accueil">⬅ Retour</a>
+
+</body>
+</html>
