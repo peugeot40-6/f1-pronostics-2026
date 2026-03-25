@@ -189,7 +189,10 @@ def historique():
 
     for res in resultats:
         gp = res["GP"]
-        classement_reel = [res["P1"], res["P2"], res["P3"]]
+        classement_reel = [
+            res["P1"], res["P2"], res["P3"], res["P4"], res["P5"],
+            res["P6"], res["P7"], res["P8"], res["P9"], res["P10"]
+        ]
 
         historique[gp] = []
 
@@ -211,7 +214,11 @@ def historique():
         historique[gp].sort(key=lambda x: x["score"], reverse=True)
 
     return render_template("historique.html", historique=historique)
-    
+print("JOUEUR:", joueur)
+print("PRONO:", prediction)
+print("REEL:", classement_reel)
+print("SCORE:", score)
+print("------")
 
 # CLASSEMENT AUTOMATIQUE
 def normaliser(nom):
