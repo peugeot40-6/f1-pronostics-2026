@@ -222,7 +222,7 @@ def normaliser(nom):
 
 
 def calcul_points(prediction, reel):
-    points_f1 = {
+    points = {
         1: 25, 2: 18, 3: 15, 4: 12, 5: 10,
         6: 8, 7: 6, 8: 4, 9: 2, 10: 1
     }
@@ -236,7 +236,7 @@ def calcul_points(prediction, reel):
     for pilote in prediction:
         if pilote in reel:
             position = reel.index(pilote) + 1
-            score += points_f1.get(position, 0)
+            score += points.get(position, 0)
 
     # 🎯 bonus podium
     podium_reel = reel[:3]
@@ -271,7 +271,7 @@ def classement():
 
         res = [res_gp[f"P{i}"] for i in range(1, 11) if res_gp.get(f"P{i}")]
 
-        points = calcul_points_f1(pr, res)
+        points = calcul_points(pr, res)
 
         if joueur not in scores:
             scores[joueur] = 0
