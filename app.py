@@ -189,8 +189,8 @@ def historique():
         for res in resultats:
         gp = res["GP"]
         classement_reel = [
-            res["P1"], res["P2"], res["P3"], res["P4"], res["P5"],
-            res["P6"], res["P7"], res["P8"], res["P9"], res["P10"]
+        res["P1"], res["P2"], res["P3"], res["P4"], res["P5"],
+        res["P6"], res["P7"], res["P8"], res["P9"], res["P10"]
         ]
 
         historique[gp] = []
