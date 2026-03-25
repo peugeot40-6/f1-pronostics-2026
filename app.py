@@ -214,35 +214,29 @@ def historique():
     
 
 # CLASSEMENT AUTOMATIQUE
-def calcul_points_f1(pronos, resultats):
-    points_f1 = {
-        1: 25, 2: 18, 3: 15, 4: 12, 5: 10,
-        6: 8, 7: 6, 8: 4, 9: 2, 10: 1
-    }
+def calcul_points(prediction, reel):
+    score = 0
 
-    points = 0
+    # normalisation (IMPORTANT)
+    prediction = [p.strip().lower() for p in prediction]
+    reel = [r.strip().lower() for r in reel]
 
-    for pilote in pronos:
-        if pilote in resultats:
-            position = resultats.index(pilote) + 1
-            points += points_f1.get(position, 0)
+    # points exacts
+    for i in range(3):
+        if prediction[i] == reel[i]:
+            score += 3
 
-    podium = resultats[:3]
+    # bonus ordre mélangé
+    for p in prediction:
+        if p in reel:
+            score += 1
 
-    if pronos == podium:
-        bonus = 10
-    elif set(pronos) == set(podium):
-        bonus = 3
-    else:
-        bonus = 0
-
-    return points + bonus
-
+    return score
+    
 # CLASSEMENT
 @app.route("/classement")
 @login_required
 def classement():
-
     sheet_pronos, sheet_resultats = connect_sheets()
 
     pronos = sheet_pronos.get_all_records()
