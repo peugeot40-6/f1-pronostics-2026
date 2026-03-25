@@ -126,7 +126,7 @@ def accueil():
 @login_required
 def pronostic():
 
-   if request.method == "POST":
+    if request.method == "POST":
         gp = request.form.get("gp")
         p1 = request.form.get("p1")
         p2 = request.form.get("p2")
