@@ -214,25 +214,36 @@ def historique():
     
 
 # CLASSEMENT AUTOMATIQUE
+def normaliser(nom):
+    return nom.lower().strip().split()[-1]
+
+
 def calcul_points(prediction, reel):
+    points_f1 = {
+        1: 25, 2: 18, 3: 15, 4: 12, 5: 10,
+        6: 8, 7: 6, 8: 4, 9: 2, 10: 1
+    }
+
     score = 0
 
-    # normalisation (IMPORTANT)
-    prediction = [p.strip().lower() for p in prediction]
-    reel = [r.strip().lower() for r in reel]
+    prediction = [normaliser(p) for p in prediction]
+    reel = [normaliser(r) for r in reel]
 
-    # points exacts
-    for i in range(3):
-        if prediction[i] == reel[i]:
-            score += 3
+    # 🏁 donner les points selon position réelle
+    for pilote in prediction:
+        if pilote in reel:
+            position = reel.index(pilote) + 1
+            score += points_f1.get(position, 0)
 
-    # bonus ordre mélangé
-    for p in prediction:
-        if p in reel:
-            score += 1
+    # 🎯 bonus podium
+    podium_reel = reel[:3]
+
+    if prediction == podium_reel:
+        score += 10
+    elif set(prediction) == set(podium_reel):
+        score += 3
 
     return score
-    
 # CLASSEMENT
 @app.route("/classement")
 @login_required
