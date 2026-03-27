@@ -1,3 +1,4 @@
+COURSES_VERROUILLEES = ["Australie"]  ["Chine"] # tu ajoutes les GP fermés
 gps =[
     "Australie", "Chine", "Japon",
     "Miami", "Canada", "Monaco",
@@ -125,7 +126,11 @@ def accueil():
 @app.route("/pronostic", methods=["GET", "POST"])
 @login_required
 def pronostic():
+gp = request.args.get("gp")  # ou récupère le GP autrement
 
+if gp in COURSES_VERROUILLEES:
+    return "Les pronostics sont fermés pour ce Grand Prix."
+    
     if request.method == "POST":
         gp = request.form.get("gp")
         p1 = request.form.get("p1")
