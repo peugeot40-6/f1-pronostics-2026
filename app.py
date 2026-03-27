@@ -263,7 +263,7 @@ def classement():
         joueur = prono["Joueur"]
         gp = prono["GP"]
 
-        pr = [
+        prediction = [
     prono.get("p1"),
     prono.get("p2"),
     prono.get("p3")
