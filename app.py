@@ -263,8 +263,11 @@ def classement():
         joueur = prono["Joueur"]
         gp = prono["GP"]
 
-        prediction = [prono["p1"], prono["p2"], prono["p3"]]
-
+        pr = [
+    prono.get("p1"),
+    prono.get("p2"),
+    prono.get("p3")
+]
         # trouver le résultat du GP
         res_gp = next((r for r in resultats if r["GP"] == gp), None)
 
