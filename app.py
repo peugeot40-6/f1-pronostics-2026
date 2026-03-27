@@ -1,4 +1,3 @@
-COURSES_VERROUILLEES = ["Australie"]  ["Chine"] # tu ajoutes les GP fermés
 gps =[
     "Australie", "Chine", "Japon",
     "Miami", "Canada", "Monaco",
@@ -14,6 +13,7 @@ pilotes = [
     "Albon", "Sainz", "Bottas", "Perez",
     "Hulkenberg", "Bortoleto"
 ]
+COURSES_VERROUILLEES = ["Australie"]  ["Chine"] # tu ajoutes les GP fermés
 
 from flask import Flask, render_template, request, redirect, session
 from functools import wraps
