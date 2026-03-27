@@ -1,5 +1,19 @@
-<h2>Classement général</h2>
+<h1>🏆 Classement général</h1>
 
-<p>Classement à venir...</p>
+<table border="1">
+    <tr>
+        <th>Position</th>
+        <th>Joueur</th>
+        <th>Points</th>
+    </tr>
 
-<a href="/accueil">Retour</a>
+    {% for joueur, points in classement %}
+    <tr>
+        <td>{{ loop.index }}</td>
+        <td>{{ joueur }}</td>
+        <td>{{ points }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+<a href="/accueil">⬅ Retour</a>
