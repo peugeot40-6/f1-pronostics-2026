@@ -143,7 +143,7 @@ def pronostic():
 
         # ✔ Ajouter si OK
         sheet_pronos.append_row([
-            session["user"], gp, 1er, 2e, 3e
+            session["user"], gp, p1, p2, p3
         ])
 
         return redirect("/accueil")
@@ -203,7 +203,7 @@ def historique():
                 continue
 
             joueur = prono["Joueur"]
-            prediction = [prono["1er"], prono["2e"], prono["3e"]]
+            prediction = [prono["p1"], prono["p2"], prono["p3"]]
 
             score = calcul_points(prediction, classement_reel)
 
@@ -263,7 +263,7 @@ def classement():
         joueur = prono["Joueur"]
         gp = prono["GP"]
 
-        prediction = [prono["1er"], prono["2e"], prono["3e"]]
+        prediction = [prono["p1"], prono["p2"], prono["p3"]]
 
         # trouver le résultat du GP
         res_gp = next((r for r in resultats if r["GP"] == gp), None)
