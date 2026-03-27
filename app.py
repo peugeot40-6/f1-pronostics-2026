@@ -143,7 +143,7 @@ def pronostic():
 
         # ✔ Ajouter si OK
         sheet_pronos.append_row([
-            session["user"], gp, p1, p2, p3
+            session["user"], gp, 1er, 2e, 3e
         ])
 
         return redirect("/accueil")
