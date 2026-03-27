@@ -1,33 +1,54 @@
-
-body{
-font-family:Arial;
-background:#f4f4f4;
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f6f8;
+    text-align: center;
 }
 
-.container{
-width:650px;
-margin:auto;
-background:white;
-padding:30px;
-border-radius:10px;
-box-shadow:0 0 10px #ccc;
+/* Cartes */
+.container {
+    background: white;
+    padding: 20px;
+    margin: 40px auto;
+    width: 60%;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
 }
 
-button{
-background:#e10600;
-color:white;
-border:none;
-padding:10px;
-margin:5px;
-border-radius:5px;
+/* Boutons */
+button, .btn {
+    background-color: #e10600;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    margin: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
 }
 
-table{
-width:100%;
-border-collapse:collapse;
+button:hover, .btn:hover {
+    background-color: #b00500;
 }
 
-td,th{
-padding:8px;
-border-bottom:1px solid #ddd;
+/* Tableaux */
+table {
+    margin: 20px auto;
+    border-collapse: collapse;
+    width: 70%;
 }
+
+th {
+    background-color: #e10600;
+    color: white;
+    padding: 10px;
+}
+
+td {
+    padding: 8px;
+    border: 1px solid #ddd;
+}
+
+/* Podium */
+tr:nth-child(2) { background-color: gold; }
+tr:nth-child(3) { background-color: silver; }
+tr:nth-child(4) { background-color: #cd7f32; }
