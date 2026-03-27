@@ -1,5 +1,12 @@
 <h1>🏆 Classement général</h1>
 
+<td>
+    {% if loop.index == 1 %}🥇
+    {% elif loop.index == 2 %}🥈
+    {% elif loop.index == 3 %}🥉
+    {% endif %}
+    {{ joueur }}
+</td>
 <table border="1">
     <tr>
         <th>Position</th>
