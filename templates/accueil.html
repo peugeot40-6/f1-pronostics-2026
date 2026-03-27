@@ -9,14 +9,14 @@
 
 <div class="container">
 
-<h2>Bienvenue {{ user }} 👋</h2>
-<a href="/logout"><button>Déconnexion</button></a>
-<a href="/classement"><button>Classement</button></a>
-<a href="/historique"><button>Historique</button></a>
-<a href="/pronostic"><button>Faire un pronostic</button></a>
-{% if user == "Padre" %}
-    <a href="/resultats" class="btn">Encoder résultats</a>
-{% endif %}  
+    <h2>Bienvenue {{ user }} 👋</h2>
+    <a href="/logout"><button>Déconnexion</button></a>
+    <a href="/classement"><button>Classement</button></a>
+    <a href="/historique"><button>Historique</button></a>
+    <a href="/pronostic"><button>Faire un pronostic</button></a>
+    {% if user == "Padre" %}
+        <a href="/resultats" class="btn">Encoder résultats</a>
+    {% endif %}  
 </div>
 
 </body>
