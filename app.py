@@ -247,14 +247,15 @@ def calcul_points(prediction, reel):
         score += 3
 
     return score
+    
 # CLASSEMENT
 @app.route("/classement")
 @login_required
 def classement():
-    sheet_pronos, sheet_resultats = connect_sheets()
+    feuille_pronos, feuille_resultats = connecter_feuilles()
 
-    pronos = sheet_pronos.get_all_records()
-    resultats = sheet_resultats.get_all_records()
+    pronos = feuille_pronos.get_all_records()
+    resultats = feuille_resultats.get_all_records()
 
     scores = {}
 
@@ -262,22 +263,26 @@ def classement():
         joueur = prono["Joueur"]
         gp = prono["GP"]
 
-        pr = [prono["1er"], prono["2e"], prono["3e"]]
+        prediction = [prono["1er"], prono["2e"], prono["3e"]]
 
+        # trouver le résultat du GP
         res_gp = next((r for r in resultats if r["GP"] == gp), None)
 
         if not res_gp:
             continue
 
-        res = [res_gp[f"P{i}"] for i in range(1, 11) if res_gp.get(f"P{i}")]
+        classement_reel = [
+            res_gp[f"P{i}"] for i in range(1, 11)
+        ]
 
-        points_f1 = calcul_points(pr, res)
+        points = calcul_points(prediction, classement_reel)
 
         if joueur not in scores:
             scores[joueur] = 0
 
         scores[joueur] += points
 
+    # transformer en liste triée
     classement = sorted(scores.items(), key=lambda x: x[1], reverse=True)
 
     return render_template("classement_general.html", classement=classement)
