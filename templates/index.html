@@ -1,34 +1,123 @@
 <!DOCTYPE html>
-<html>
-
+<html lang="fr">
 <head>
-<title>Fantasy F1</title>
-<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fantasy F1 — Connexion</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    .login-wrap {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .login-card {
+      width: 100%;
+      max-width: 420px;
+    }
+
+    .flag-strip {
+      display: flex;
+      gap: 3px;
+      margin-bottom: 36px;
+      justify-content: center;
+    }
+
+    .flag-strip span {
+      display: block;
+      height: 4px;
+      border-radius: 2px;
+      animation: grow 1s ease forwards;
+      transform-origin: left;
+    }
+
+    @keyframes grow {
+      from { transform: scaleX(0); opacity: 0; }
+      to { transform: scaleX(1); opacity: 1; }
+    }
+
+    .flag-strip span:nth-child(odd)  { background: #fff; width: 20px; animation-delay: calc(var(--i) * 0.05s); }
+    .flag-strip span:nth-child(even) { background: #000; border: 1px solid #333; width: 20px; animation-delay: calc(var(--i) * 0.05s); }
+
+    .card-login {
+      animation: slideUp 0.6s ease forwards;
+      opacity: 0;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .season-badge {
+      text-align: center;
+      margin-bottom: 28px;
+    }
+
+    .season-badge span {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--grey);
+      border: 1px solid rgba(255,255,255,0.1);
+      padding: 4px 14px;
+      border-radius: 20px;
+    }
+  </style>
 </head>
-
 <body>
+  <div class="bg-track"></div>
 
-<div class="container">
+  <div class="login-wrap">
+    <div class="login-card">
 
-<h2>🏁 Fantasy F1</h2>
+      <div class="f1-header" style="margin-bottom: 32px;">
+        <div class="f1-logo">
+          <span class="f1">F1</span>
+          <span class="fantasy">Fantasy League</span>
+        </div>
+        <div class="f1-stripe"></div>
+      </div>
 
-{% if erreur %}
-<p style="color:red">{{ erreur }}</p>
-{% endif %}
+      <div class="card card-login">
+        <div class="season-badge">
+          <span>Saison 2026</span>
+        </div>
 
-<form method="post" action="/">
+        {% if erreur %}
+        <div class="error-msg">⚠ {{ erreur }}</div>
+        {% endif %}
 
-Nom<br>
-<input name="nom"><br><br>
+        <form method="post" action="/">
+          <div class="form-group">
+            <label>Nom du pilote</label>
+            <input type="text" name="nom" placeholder="Ton prénom" autocomplete="off">
+          </div>
+          <div class="form-group">
+            <label>Code d'accès</label>
+            <input type="password" name="mdp" placeholder="••••••••">
+          </div>
+          <button type="submit" class="btn btn-primary btn-full" style="margin-top: 8px;">
+            Entrer dans la course →
+          </button>
+        </form>
 
-Mot de passe<br>
-<input name="mdp" type="password"><br><br>
+        <div class="speed-lines">
+          <span style="width:40px"></span>
+          <span style="width:70px"></span>
+          <span style="width:30px"></span>
+          <span style="width:55px"></span>
+          <span style="width:45px"></span>
+        </div>
+      </div>
 
-<button type="submit">Connexion</button>
-
-</form>
-
-</div>
-
+    </div>
+  </div>
 </body>
 </html>
