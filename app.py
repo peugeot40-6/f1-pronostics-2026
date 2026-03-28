@@ -179,6 +179,13 @@ def resultats():
         # Enregistrer les résultats
         feuille_resultats.append_row([gp, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10 ])
 
+# ✅ Récupérer les GP déjà encodés
+resultats_existants = feuille_resultats.get_all_records()
+gps_termines = {r["GP"] for r in resultats_existants}
+
+# ✅ Ne garder que les GP pas encore encodés
+gps_disponibles = [gp for gp in gps if gp not in gps_termines]
+
     return render_template("resultats.html", gps=gps, pilotes=pilotes)
 
 # HISTORIQUE
