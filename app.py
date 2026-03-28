@@ -51,9 +51,9 @@ app.secret_key = "cle-ultra-securisee-123"
 
 # USERS
 users = {
-    "Padre": "padre123",
-    "Amandine": "amandine123",
-    "Sacha": "sacha123"
+    "Padre": "padre2608",
+    "Amandine": "amandine2401",
+    "Sacha": "sacha0612"
 }
 
 # GOOGLE SHEETS CONNECTION
