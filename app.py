@@ -185,7 +185,6 @@ gps_termines = {r["GP"] for r in resultats_existants}
 
 # ✅ Ne garder que les GP pas encore encodés
 gps_disponibles = [gp for gp in gps if gp not in gps_termines]
-
     return render_template("resultats.html", gps=gps, pilotes=pilotes)
 
 # HISTORIQUE
