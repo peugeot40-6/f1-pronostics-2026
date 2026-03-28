@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fantasy F1 — Mes Pronostics</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    .page-wrap {
+      min-height: 100vh;
+      padding: 40px 20px 60px;
+    }
+
+    .page-header {
+      max-width: 820px;
+      margin: 0 auto 36px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .page-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 2rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .page-title span { color: var(--red); }
+
+    .content-wrap {
+      max-width: 820px;
+      margin: 0 auto;
+    }
+
+    /* ---- STATS BANNER ---- */
+    .stats-banner {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+      margin-bottom: 36px;
+      animation: fadeIn 0.5s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .stat-box {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 4px;
+      padding: 18px 16px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .stat-box::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--red);
+      opacity: 0.6;
+    }
+
+    .stat-value {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 2.2rem;
+      font-weight: 900;
+      color: var(--white);
+      line-height: 1;
+    }
+
+    .stat-value.highlight { color: var(--red); }
+    .stat-value.gold { color: var(--gold); }
+
+    .stat-label {
+      font-size: 0.62rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--grey);
+      margin-top: 6px;
+    }
+
+    /* ---- PILOTE FAVORI ---- */
+    .fav-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(225,6,0,0.08);
+      border: 1px solid rgba(225,6,0,0.2);
+      border-radius: 20px;
+      padding: 5px 14px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 32px;
+    }
+
+    /* ---- GP CARDS ---- */
+    .gp-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .gp-row {
+      display: grid;
+      grid-template-columns: 180px 1fr auto;
+      align-items: center;
+      gap: 16px;
+      padding: 16px 20px;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 4px;
+      transition: all 0.2s;
+      animation: fadeIn 0.4s ease forwards;
+      opacity: 0;
+    }
+
+    .gp-row:hover {
+      background: rgba(255,255,255,0.04);
+      border-color: rgba(255,255,255,0.1);
+    }
+
+    .gp-row.done {
+      border-left: 3px solid rgba(225,6,0,0.5);
+    }
+
+    .gp-row.pending {
+      border-left: 3px solid rgba(255,255,255,0.15);
+    }
+
+    .gp-row.no-prono {
+      border-left: 3px solid rgba(255,255,255,0.05);
+      opacity: 0.5;
+    }
+
+    .gp-name-col {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--white);
+    }
+
+    .gp-status {
+      font-size: 0.6rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-top: 3px;
+    }
+
+    .status-done    { color: var(--red); }
+    .status-pending { color: var(--grey); }
+    .status-missing { color: rgba(255,255,255,0.2); }
+
+    .podium-col {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .pilot-chip {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 2px;
+      background: rgba(255,255,255,0.05);
+      color: var(--grey-light);
+    }
+
+    .pilot-chip.p1 { background: rgba(255,215,0,0.1); color: var(--gold); }
+    .pilot-chip.p2 { background: rgba(192,192,192,0.1); color: var(--silver); }
+    .pilot-chip.p3 { background: rgba(205,127,50,0.1); color: var(--bronze); }
+
+    .no-prono-text {
+      font-size: 0.75rem;
+      color: rgba(255,255,255,0.2);
+      font-style: italic;
+    }
+
+    .points-col {
+      text-align: right;
+      min-width: 70px;
+    }
+
+    .points-val {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 900;
+      color: var(--white);
+      line-height: 1;
+    }
+
+    .points-pending {
+      font-size: 1.2rem;
+      color: var(--grey);
+    }
+
+    .pts-label {
+      font-size: 0.55rem;
+      letter-spacing: 2px;
+      color: var(--grey);
+      text-transform: uppercase;
+    }
+
+    /* ---- SECTION TITLE ---- */
+    .section-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--grey);
+      margin: 28px 0 12px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    @media (max-width: 600px) {
+      .stats-banner { grid-template-columns: repeat(2, 1fr); }
+      .gp-row { grid-template-columns: 1fr auto; }
+      .podium-col { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-track"></div>
+
+  <div class="page-wrap">
+    <div class="page-header">
+      <div class="page-title">🏎️ Mes <span>Pronostics</span></div>
+      <a href="/accueil" class="back-link">← Retour</a>
+    </div>
+
+    <div class="content-wrap">
+
+      <!-- STATS -->
+      <div class="stats-banner">
+        <div class="stat-box">
+          <div class="stat-value highlight">{{ stats.total_points }}</div>
+          <div class="stat-label">Points totaux</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-value">{{ stats.nb_pronos }}</div>
+          <div class="stat-label">GP pronostiqués</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-value gold">{{ stats.meilleur_score }}</div>
+          <div class="stat-label">Meilleur GP</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-value">{{ stats.moyenne }}</div>
+          <div class="stat-label">Moyenne / GP</div>
+        </div>
+      </div>
+
+      {% if stats.pilote_favori %}
+      <div class="fav-pill">
+        🏁 Pilote fétiche — {{ stats.pilote_favori }}
+      </div>
+      {% endif %}
+
+      <!-- GP TERMINÉS -->
+      {% if gps_termines %}
+      <div class="section-title">Grands Prix terminés</div>
+      <div class="gp-grid">
+        {% for item in gps_termines %}
+        <div class="gp-row done" style="animation-delay: {{ loop.index * 0.05 }}s">
+          <div class="gp-name-col">
+            {{ item.gp }}
+            <div class="gp-status status-done">Résultat connu</div>
+          </div>
+          <div class="podium-col">
+            {% if item.p1 %}
+              <span class="pilot-chip p1">{{ item.p1 }}</span>
+              <span class="pilot-chip p2">{{ item.p2 }}</span>
+              <span class="pilot-chip p3">{{ item.p3 }}</span>
+            {% else %}
+              <span class="no-prono-text">Pas de pronostic</span>
+            {% endif %}
+          </div>
+          <div class="points-col">
+            {% if item.points is not none %}
+              <div class="points-val">{{ item.points }}</div>
+              <div class="pts-label">pts</div>
+            {% else %}
+              <div class="points-pending">—</div>
+            {% endif %}
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      <!-- GP EN ATTENTE (pronostic fait, résultat pas encore encodé) -->
+      {% if gps_en_attente %}
+      <div class="section-title">En attente de résultats</div>
+      <div class="gp-grid">
+        {% for item in gps_en_attente %}
+        <div class="gp-row pending" style="animation-delay: {{ loop.index * 0.05 }}s">
+          <div class="gp-name-col">
+            {{ item.gp }}
+            <div class="gp-status status-pending">Résultat attendu</div>
+          </div>
+          <div class="podium-col">
+            <span class="pilot-chip p1">{{ item.p1 }}</span>
+            <span class="pilot-chip p2">{{ item.p2 }}</span>
+            <span class="pilot-chip p3">{{ item.p3 }}</span>
+          </div>
+          <div class="points-col">
+            <div class="points-pending">⏳</div>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      <!-- GP FUTURS SANS PRONOSTIC -->
+      {% if gps_a_faire %}
+      <div class="section-title">À pronostiquer</div>
+      <div class="gp-grid">
+        {% for gp in gps_a_faire %}
+        <div class="gp-row no-prono" style="animation-delay: {{ loop.index * 0.03 }}s">
+          <div class="gp-name-col">
+            {{ gp }}
+            <div class="gp-status status-missing">Pas encore pronostiqué</div>
+          </div>
+          <div class="podium-col"></div>
+          <div class="points-col">
+            <a href="/pronostic" style="font-family:'Barlow Condensed',sans-serif; font-size:0.7rem; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--red); text-decoration:none;">
+              Pronostiquer →
+            </a>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+
+      <a href="/accueil" class="back-link">← Retour à l'accueil</a>
+    </div>
+  </div>
+</body>
+</html>
