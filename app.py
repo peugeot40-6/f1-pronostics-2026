@@ -136,7 +136,10 @@ def pronostic():
         p1 = request.form.get("p1")
         p2 = request.form.get("p2")
         p3 = request.form.get("p3")
-
+        
+        # ✅ Vérifier les doublons de pilotes
+        if len({p1, p2, p3}) < 3:
+            return "❌ Tu ne peux pas choisir le même pilote plusieurs fois !"
         sheet_pronos, _ = connect_sheets()
         data = sheet_pronos.get_all_records()
 
