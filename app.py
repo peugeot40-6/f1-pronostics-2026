@@ -122,7 +122,7 @@ def accueil():
 
 
 # PRONOSTIC
-COURSES_VERROUILLEES = ["Australie", "Chine"]
+COURSES_VERROUILLEES = ["Australie", "Chine" , "Japon"]
 
 @app.route("/pronostic", methods=["GET", "POST"])
 @login_required
@@ -148,7 +148,9 @@ def pronostic():
         sheet_pronos.append_row([session["user"], gp, p1, p2, p3])
         return redirect("/accueil")
 
-    return render_template("pronostic.html", gps=gps, pilotes=pilotes)
+    return render_template("pronostic.html",
+                       courses_verrouillees=COURSES_VERROUILLEES,
+                       gp=gp)
     
 # ENCODER LES RÉSULTATS GP
 @app.route("/resultats", methods=["GET", "POST"])
