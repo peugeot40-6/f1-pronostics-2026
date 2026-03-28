@@ -1,32 +1,158 @@
-<h1>🏆 Classement général</h1>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fantasy F1 — Classement</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    .page-wrap {
+      min-height: 100vh;
+      padding: 40px 20px 60px;
+    }
 
-{% for joueur in classement %}
-    <tr>
-        <td>
-            {% if loop.index == 1 %}🥇
-            {% elif loop.index == 2 %}🥈
-            {% elif loop.index == 3 %}🥉
-            {% else %}{{ loop.index }}
-            {% endif %}
-        </td>
-        <td>{{ joueur.nom }}</td>
-        <td>{{ joueur.points }}</td>
-    </tr>
-{% endfor %}
-<table border="1">
-    <tr>
-        <th>Position</th>
-        <th>Joueur</th>
-        <th>Points</th>
-    </tr>
+    .page-header {
+      max-width: 680px;
+      margin: 0 auto 36px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
 
-    {% for joueur, points in classement %}
-    <tr>
-        <td>{{ loop.index }}</td>
-        <td>{{ joueur }}</td>
-        <td>{{ points }}</td>
-    </tr>
-    {% endfor %}
-</table>
+    .page-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 2rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
 
-<a href="/accueil">⬅ Retour</a>
+    .page-title span { color: var(--red); }
+
+    .classement-wrap {
+      max-width: 680px;
+      margin: 0 auto;
+    }
+
+    .classement-card {
+      animation: slideUp 0.5s ease;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .rank-row {
+      display: flex;
+      align-items: center;
+      padding: 16px 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      transition: background 0.15s;
+      animation: fadeRow 0.4s ease forwards;
+      opacity: 0;
+    }
+
+    @keyframes fadeRow {
+      from { opacity: 0; transform: translateX(-10px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    .rank-row:hover { background: rgba(255,255,255,0.03); }
+
+    .rank-row.gold   { background: rgba(255,215,0,0.06); border-left: 3px solid var(--gold); }
+    .rank-row.silver { background: rgba(192,192,192,0.04); border-left: 3px solid var(--silver); }
+    .rank-row.bronze { background: rgba(205,127,50,0.04); border-left: 3px solid var(--bronze); }
+    .rank-row.other  { border-left: 3px solid transparent; }
+
+    .rank-pos {
+      width: 40px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 900;
+    }
+
+    .rank-row.gold   .rank-pos { color: var(--gold); }
+    .rank-row.silver .rank-pos { color: var(--silver); }
+    .rank-row.bronze .rank-pos { color: var(--bronze); }
+    .rank-row.other  .rank-pos { color: var(--grey); font-size: 1.1rem; }
+
+    .rank-name {
+      flex: 1;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .rank-points {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.8rem;
+      font-weight: 900;
+      color: var(--white);
+    }
+
+    .rank-pts-label {
+      font-size: 0.6rem;
+      letter-spacing: 2px;
+      color: var(--grey);
+      text-transform: uppercase;
+      margin-left: 4px;
+      vertical-align: middle;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--grey);
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-track"></div>
+
+  <div class="page-wrap">
+    <div class="page-header">
+      <div class="page-title">🏆 <span>Classement</span></div>
+      <a href="/accueil" class="back-link">← Retour</a>
+    </div>
+
+    <div class="classement-wrap">
+      <div class="card classement-card" style="padding: 0; overflow: hidden;">
+
+        {% if classement %}
+          {% for joueur, points in classement %}
+          {% if loop.index == 1 %}
+            <div class="rank-row gold" style="animation-delay: {{ loop.index * 0.07 }}s">
+          {% elif loop.index == 2 %}
+            <div class="rank-row silver" style="animation-delay: {{ loop.index * 0.07 }}s">
+          {% elif loop.index == 3 %}
+            <div class="rank-row bronze" style="animation-delay: {{ loop.index * 0.07 }}s">
+          {% else %}
+            <div class="rank-row other" style="animation-delay: {{ loop.index * 0.07 }}s">
+          {% endif %}
+            <div class="rank-pos">
+              {% if loop.index == 1 %}🥇
+              {% elif loop.index == 2 %}🥈
+              {% elif loop.index == 3 %}🥉
+              {% else %}{{ loop.index }}{% endif %}
+            </div>
+            <div class="rank-name">{{ joueur }}</div>
+            <div class="rank-points">{{ points }}<span class="rank-pts-label">pts</span></div>
+          </div>
+          {% endfor %}
+        {% else %}
+          <div class="empty-state">
+            Aucun résultat pour l'instant.<br>Les scores apparaîtront après le premier GP.
+          </div>
+        {% endif %}
+
+      </div>
+
+      <a href="/accueil" class="back-link">← Retour à l'accueil</a>
+    </div>
+  </div>
+</body>
+</html>
