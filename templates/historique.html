@@ -1,35 +1,163 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
 <head>
-    <title>Historique</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fantasy F1 — Historique</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    .page-wrap {
+      min-height: 100vh;
+      padding: 40px 20px 60px;
+    }
+
+    .page-header {
+      max-width: 780px;
+      margin: 0 auto 36px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .page-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 2rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .page-title span { color: var(--red); }
+
+    .histo-wrap {
+      max-width: 780px;
+      margin: 0 auto;
+    }
+
+    .gp-block {
+      margin-bottom: 32px;
+      animation: fadeIn 0.5s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .gp-head {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 0;
+      padding: 14px 20px;
+      background: rgba(225,6,0,0.1);
+      border: 1px solid rgba(225,6,0,0.2);
+      border-bottom: none;
+      border-radius: 4px 4px 0 0;
+    }
+
+    .gp-flag {
+      width: 32px;
+      height: 32px;
+      background: var(--red);
+      border-radius: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.6rem;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: 900;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .gp-name {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .gp-table-wrap {
+      border: 1px solid rgba(255,255,255,0.06);
+      border-top: none;
+      border-radius: 0 0 4px 4px;
+      overflow: hidden;
+    }
+
+    table {
+      margin: 0;
+    }
+
+    thead th { font-size: 0.65rem; }
+
+    tbody tr:nth-child(1) td { color: var(--gold); }
+    tbody tr:nth-child(2) td { color: var(--silver); }
+    tbody tr:nth-child(3) td { color: var(--bronze); }
+    tbody tr:nth-child(n+4) td { color: var(--grey-light); }
+
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+      color: var(--grey);
+    }
+  </style>
 </head>
 <body>
+  <div class="bg-track"></div>
 
-<h1>📜 Historique des Grands Prix</h1>
+  <div class="page-wrap">
+    <div class="page-header">
+      <div class="page-title">📜 <span>Historique</span></div>
+      <a href="/accueil" class="back-link">← Retour</a>
+    </div>
 
-{% for gp, joueurs in historique.items() %}
-    <h2>{{ gp }}</h2>
+    <div class="histo-wrap">
 
-    <table border="1">
-        <tr>
-            <th>Position</th>
-            <th>Joueur</th>
-            <th>Points</th>
-        </tr>
-
-        {% for j in joueurs %}
-        <tr>
-            <td>{{ loop.index }}</td>
-            <td>{{ j.joueur }}</td>
-            <td>{{ j.points }}</td>
-        </tr>
+      {% if historique %}
+        {% for gp, joueurs in historique.items() %}
+        <div class="gp-block">
+          <div class="gp-head">
+            <div class="gp-flag">GP</div>
+            <div class="gp-name">{{ gp }}</div>
+          </div>
+          <div class="gp-table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>Pos</th>
+                  <th>Joueur</th>
+                  <th>Points</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for j in joueurs %}
+                <tr>
+                  <td>
+                    {% if loop.index == 1 %}🥇
+                    {% elif loop.index == 2 %}🥈
+                    {% elif loop.index == 3 %}🥉
+                    {% else %}{{ loop.index }}{% endif %}
+                  </td>
+                  <td style="font-family:'Barlow Condensed',sans-serif; font-size:1.05rem; font-weight:700; text-transform:uppercase;">{{ j.joueur }}</td>
+                  <td style="font-family:'Barlow Condensed',sans-serif; font-size:1.2rem; font-weight:800;">{{ j.points }} <span style="font-size:0.6rem; color:var(--grey); letter-spacing:2px;">PTS</span></td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </div>
         {% endfor %}
-    </table>
+      {% else %}
+        <div class="card empty-state">
+          Aucun Grand Prix terminé pour l'instant.<br>
+          Les résultats apparaîtront ici après chaque course.
+        </div>
+      {% endif %}
 
-    <br>
-{% endfor %}
-
-<a href="/accueil">⬅ Retour</a>
-
+      <a href="/accueil" class="back-link">← Retour à l'accueil</a>
+    </div>
+  </div>
 </body>
 </html>
