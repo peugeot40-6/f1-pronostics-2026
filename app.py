@@ -127,13 +127,12 @@ COURSES_VERROUILLEES = ["Australie", "Chine" , "Japon"]
 @app.route("/pronostic", methods=["GET", "POST"])
 @login_required
 def pronostic():
-    gp = request.args.get("gp")
-
-    if gp in COURSES_VERROUILLEES:
-        return "Les pronostics sont fermés pour ce Grand Prix."
-
     if request.method == "POST":
-        gp = request.form.get("gp")
+        gp = request.form.get("gp")  # ← on récupère d'abord
+
+        if gp in COURSES_VERROUILLEES:  # ← on vérifie ici
+            return "❌ Les pronostics sont fermés pour ce Grand Prix."
+
         p1 = request.form.get("p1")
         p2 = request.form.get("p2")
         p3 = request.form.get("p3")
@@ -148,7 +147,9 @@ def pronostic():
         sheet_pronos.append_row([session["user"], gp, p1, p2, p3])
         return redirect("/accueil")
 
-    return render_template("pronostic.html", gps=gps, pilotes=pilotes)
+    # Pour le GET, masquer les GP verrouillés dans la liste
+    gps_disponibles = [gp for gp in gps if gp not in COURSES_VERROUILLEES]
+    return render_template("pronostic.html", gps=gps_disponibles, pilotes=pilotes)
     
 # ENCODER LES RÉSULTATS GP
 @app.route("/resultats", methods=["GET", "POST"])
