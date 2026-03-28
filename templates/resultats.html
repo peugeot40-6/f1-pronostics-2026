@@ -94,6 +94,22 @@
     }
   </style>
 </head>
+<script>
+  const selects = document.querySelectorAll('select[name^="p"]:not([name="gp"])');
+
+  selects.forEach(sel => {
+    sel.addEventListener('change', () => {
+      const vals = [...selects].map(s => s.value);
+
+      selects.forEach(s => {
+        [...s.options].forEach(opt => {
+          const dejaUtilise = vals.includes(opt.value) && s.value !== opt.value;
+          opt.disabled = dejaUtilise;
+        });
+      });
+    });
+  });
+</script>
 <body>
   <div class="bg-track"></div>
 
