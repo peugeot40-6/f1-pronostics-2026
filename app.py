@@ -147,9 +147,7 @@ def pronostic():
         sheet_pronos.append_row([session["user"], gp, p1, p2, p3])
         return redirect("/accueil")
 
-    # Pour le GET, masquer les GP verrouillés dans la liste
-    gps_disponibles = [gp for gp in gps if gp not in COURSES_VERROUILLEES]
-    return render_template("pronostic.html", gps=gps_disponibles, pilotes=pilotes)
+    return render_template("pronostic.html", gps=gps, pilotes=pilotes)
     
 # ENCODER LES RÉSULTATS GP
 @app.route("/resultats", methods=["GET", "POST"])
