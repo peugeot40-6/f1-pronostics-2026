@@ -1,40 +1,165 @@
-<h2>Faire un pronostic</h2>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fantasy F1 — Pronostic</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    .page-wrap {
+      min-height: 100vh;
+      padding: 40px 20px 60px;
+    }
 
-<form method="POST">
+    .page-header {
+      max-width: 580px;
+      margin: 0 auto 36px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
 
-<label>Grand Prix :</label>
-<select name="gp" required>
-    <option value="">-- Choisir un GP --</option>
-    {% for gp in gps %}
-        <option value="{{ gp }}">{{ gp }}</option>
-    {% endfor %}
-</select>
+    .page-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 2rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
 
-<br><br>
+    .page-title span { color: var(--red); }
 
-<label>1er :</label>
-<select name="p1">
-    {% for p in pilotes %}
-        <option value="{{ p }}">{{ p }}</option>
-    {% endfor %}
-</select>
+    .prono-card {
+      max-width: 580px;
+      margin: 0 auto;
+      animation: slideUp 0.5s ease;
+    }
 
-<label>2e :</label>
-<select name="p2">
-    {% for p in pilotes %}
-        <option value="{{ p }}">{{ p }}</option>
-    {% endfor %}
-</select>
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
 
-<label>3e :</label>
-<select name="p3">
-    {% for p in pilotes %}
-        <option value="{{ p }}">{{ p }}</option>
-    {% endfor %}
-</select>
+    .podium-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+      margin-top: 8px;
+    }
 
-<br><br>
+    .podium-select-wrap {
+      position: relative;
+    }
 
-<button type="submit">Valider</button>
+    .podium-pos {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 2rem;
+      font-weight: 900;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
 
-</form>
+    .pos-1 { color: var(--gold); }
+    .pos-2 { color: var(--silver); }
+    .pos-3 { color: var(--bronze); }
+
+    .podium-select-wrap select {
+      border-top: 2px solid transparent;
+      padding-top: 10px;
+    }
+
+    .podium-select-wrap.p1 select { border-top-color: var(--gold); }
+    .podium-select-wrap.p2 select { border-top-color: var(--silver); }
+    .podium-select-wrap.p3 select { border-top-color: var(--bronze); }
+
+    .divider {
+      height: 1px;
+      background: rgba(255,255,255,0.06);
+      margin: 28px 0;
+    }
+
+    .flag-row {
+      display: flex;
+      gap: 3px;
+      margin-bottom: 20px;
+    }
+
+    .flag-row span {
+      flex: 1;
+      height: 3px;
+      border-radius: 1px;
+    }
+
+    .flag-row span:nth-child(odd) { background: white; opacity: 0.15; }
+    .flag-row span:nth-child(even) { background: black; opacity: 0.5; }
+  </style>
+</head>
+<body>
+  <div class="bg-track"></div>
+
+  <div class="page-wrap">
+    <div class="page-header">
+      <div class="page-title">Ton <span>Pronostic</span></div>
+      <a href="/accueil" class="back-link">← Retour</a>
+    </div>
+
+    <div class="prono-card card">
+      <div class="flag-row">
+        {% for i in range(20) %}<span></span>{% endfor %}
+      </div>
+
+      <form method="POST">
+        <div class="form-group">
+          <label>Grand Prix</label>
+          <select name="gp" required>
+            <option value="">— Choisir un GP —</option>
+            {% for gp in gps %}
+            <option value="{{ gp }}">{{ gp }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="divider"></div>
+
+        <label style="margin-bottom: 16px; display: block;">Podium prédit</label>
+        <div class="podium-row">
+          <div class="podium-select-wrap p1">
+            <div class="podium-pos pos-1">P1</div>
+            <select name="p1">
+              {% for p in pilotes %}
+              <option value="{{ p }}">{{ p }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="podium-select-wrap p2">
+            <div class="podium-pos pos-2">P2</div>
+            <select name="p2">
+              {% for p in pilotes %}
+              <option value="{{ p }}">{{ p }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="podium-select-wrap p3">
+            <div class="podium-pos pos-3">P3</div>
+            <select name="p3">
+              {% for p in pilotes %}
+              <option value="{{ p }}">{{ p }}</option>
+              {% endfor %}
+            </select>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <button type="submit" class="btn btn-primary btn-full">
+          Valider mon pronostic →
+        </button>
+      </form>
+    </div>
+
+    <div style="max-width:580px; margin: 0 auto;">
+      <a href="/accueil" class="back-link">← Retour à l'accueil</a>
+    </div>
+  </div>
+</body>
+</html>
