@@ -94,6 +94,28 @@
     .flag-row span:nth-child(even) { background: black; opacity: 0.5; }
   </style>
 </head>
+<script>
+  const selects = [
+    document.querySelector('select[name="p1"]'),
+    document.querySelector('select[name="p2"]'),
+    document.querySelector('select[name="p3"]')
+  ];
+
+  selects.forEach(sel => {
+    sel.addEventListener('change', () => {
+      const vals = selects.map(s => s.value);
+
+      selects.forEach(s => {
+        [...s.options].forEach(opt => {
+          // Désactive l'option si déjà choisie dans un autre select
+          const choisiAilleurs = vals.filter(v => v === opt.value).length > 1
+            || (vals.includes(opt.value) && s.value !== opt.value);
+          opt.disabled = choisiAilleurs;
+        });
+      });
+    });
+  });
+</script>
 <body>
   <div class="bg-track"></div>
 
