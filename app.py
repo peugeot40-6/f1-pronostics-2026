@@ -122,7 +122,7 @@ def accueil():
 
 
 # PRONOSTIC
-COURSES_VERROUILLEES = ["Australie", "Chine" , "Japon"]
+COURSES_VERROUILLEES = ["Australie", "Chine" ]
 
 @app.route("/pronostic", methods=["GET", "POST"])
 @login_required
