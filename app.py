@@ -158,6 +158,11 @@ def resultats():
         p8 = request.form.get("p8")
         p9 = request.form.get("p9")
         p10 = request.form.get("p10")
+        # ✅ Vérifier les doublons parmi le top 10
+        top10 = [p1, p2, p3, p4, p5, p6, p7, p8, p9, p10]
+        if len(set(top10)) < 10:
+            return "❌ Tu ne peux pas mettre le même pilote deux fois dans le top 10 !"
+
         feuille_resultats.append_row([gp, p1, p2, p3, p4, p5, p6, p7, p8, p9, p10])
 
     # ✅ Récupérer les GP déjà encodés et les masquer
