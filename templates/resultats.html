@@ -109,12 +109,18 @@
       <form method="POST">
         <div class="form-group">
           <label>Grand Prix</label>
-          <select name="gp" required>
-            <option value="">— Choisir un GP —</option>
-            {% for gp in gps %}
-            <option value="{{ gp }}">{{ gp }}</option>
-            {% endfor %}
-          </select>
+          {% if gps %}
+            <select name="gp" required>
+              <option value="">— Choisir un GP —</option>
+              {% for gp in gps %}
+              <option value="{{ gp }}">{{ gp }}</option>
+              {% endfor %}
+            </select>
+          {% else %}
+            <p style="color: var(--grey); text-align:center; padding: 20px 0;">
+              ✅ Tous les résultats ont été encodés !
+            </p>
+          {% endif %}
         </div>
 
         <div class="divider"></div>
