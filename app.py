@@ -1,3 +1,44 @@
+from datetime import datetime, timezone
+
+CALENDRIER_2026 = {
+    "Australie":   datetime(2026, 3, 15, 6, 0, tzinfo=timezone.utc),
+    "Chine":       datetime(2026, 3, 22, 7, 0, tzinfo=timezone.utc),
+    "Japon":       datetime(2026, 4, 5, 5, 0, tzinfo=timezone.utc),
+    "Miami":       datetime(2026, 5, 10, 19, 0, tzinfo=timezone.utc),
+    "Monaco":      datetime(2026, 5, 24, 13, 0, tzinfo=timezone.utc),
+    "Canada":      datetime(2026, 6, 14, 18, 0, tzinfo=timezone.utc),
+    "Barcelone":   datetime(2026, 6, 1, 13, 0, tzinfo=timezone.utc),
+    "Autriche":    datetime(2026, 6, 28, 13, 0, tzinfo=timezone.utc),
+    "Royaume-Uni": datetime(2026, 7, 5, 14, 0, tzinfo=timezone.utc),
+    "Belgique":    datetime(2026, 7, 26, 13, 0, tzinfo=timezone.utc),
+    "Hongrie":     datetime(2026, 8, 2, 13, 0, tzinfo=timezone.utc),
+    "Pays-Bas":    datetime(2026, 8, 30, 13, 0, tzinfo=timezone.utc),
+    "Italie":      datetime(2026, 9, 6, 13, 0, tzinfo=timezone.utc),
+    "Espagne":     datetime(2026, 9, 20, 13, 0, tzinfo=timezone.utc),
+    "Azerbaïdjan": datetime(2026, 9, 27, 11, 0, tzinfo=timezone.utc),
+    "Singapour":   datetime(2026, 10, 4, 8, 0, tzinfo=timezone.utc),
+    "États-Unis":  datetime(2026, 10, 18, 19, 0, tzinfo=timezone.utc),
+    "Mexique":     datetime(2026, 10, 25, 20, 0, tzinfo=timezone.utc),
+    "Brésil":      datetime(2026, 11, 15, 17, 0, tzinfo=timezone.utc),
+    "Las Vegas":   datetime(2026, 11, 21, 6, 0, tzinfo=timezone.utc),
+    "Qatar":       datetime(2026, 11, 29, 14, 0, tzinfo=timezone.utc),
+    "Abu Dhabi":   datetime(2026, 12, 6, 13, 0, tzinfo=timezone.utc),
+}
+
+def get_prochain_gp():
+    """Retourne le prochain GP pas encore couru."""
+    now = datetime.now(timezone.utc)
+    for gp in gps:
+        date = CALENDRIER_2026.get(gp)
+        if date and date > now:
+            return {
+                "nom": gp,
+                "date": date,
+                "verrouille": gp in COURSES_VERROUILLEES
+            }
+    # Si tous les GP sont passés, retourner le dernier
+    return {"nom": gps[-1], "date": None, "verrouille": True}
+
 gps = [
     "Australie", "Chine", "Japon",
     "Miami", "Canada", "Monaco",
@@ -100,7 +141,88 @@ def login():
 @app.route("/accueil")
 @login_required
 def accueil():
-    return render_template("accueil.html", user=session["user"])
+    prochain_gp = get_prochain_gp()
+    return render_template("accueil.html", user=session["user"], prochain_gp=prochain_gp)
+
+@app.route("/mes_pronostics")
+@login_required
+def mes_pronostics():
+    feuille_pronos, feuille_resultats = connecter_feuilles()
+
+    joueur = session["user"]
+    tous_pronos = feuille_pronos.get_all_records()
+    tous_resultats = feuille_resultats.get_all_records()
+
+    # GP avec résultats connus
+    gps_avec_resultats = {r["GP"]: r for r in tous_resultats}
+
+    # Pronostics du joueur
+    mes_pronos = {p["GP"]: p for p in tous_pronos if p["Joueur"] == joueur}
+
+    gps_termines   = []
+    gps_en_attente = []
+    gps_a_faire    = []
+
+    total_points  = 0
+    meilleur      = 0
+    nb_pronos     = 0
+    compteur_pilotes = {}
+
+    for gp in gps:
+        if gp in gps_avec_resultats:
+            # GP terminé (résultat encodé)
+            res = gps_avec_resultats[gp]
+            classement_reel = [res[f"P{i}"] for i in range(1, 11)]
+
+            if gp in mes_pronos:
+                p = mes_pronos[gp]
+                prediction = [p["p1"], p["p2"], p["p3"]]
+                score = calcul_points(prediction, classement_reel)
+                total_points += score
+                nb_pronos += 1
+                if score > meilleur:
+                    meilleur = score
+                for pilote in prediction:
+                    compteur_pilotes[pilote] = compteur_pilotes.get(pilote, 0) + 1
+                gps_termines.append({
+                    "gp": gp, "p1": p["p1"], "p2": p["p2"], "p3": p["p3"],
+                    "points": score
+                })
+            else:
+                gps_termines.append({
+                    "gp": gp, "p1": None, "p2": None, "p3": None, "points": None
+                })
+
+        elif gp in mes_pronos:
+            # GP pas encore couru, mais pronostic fait
+            p = mes_pronos[gp]
+            gps_en_attente.append({
+                "gp": gp, "p1": p["p1"], "p2": p["p2"], "p3": p["p3"]
+            })
+
+        elif gp not in COURSES_VERROUILLEES:
+            # GP futur, pas encore pronostiqué
+            gps_a_faire.append(gp)
+
+    # Pilote fétiche
+    pilote_favori = max(compteur_pilotes, key=compteur_pilotes.get) if compteur_pilotes else None
+    moyenne = round(total_points / nb_pronos, 1) if nb_pronos > 0 else 0
+
+    stats = {
+        "total_points":  total_points,
+        "nb_pronos":     nb_pronos,
+        "meilleur_score": meilleur,
+        "moyenne":       moyenne,
+        "pilote_favori": pilote_favori,
+    }
+
+    return render_template(
+        "mes_pronostics.html",
+        stats=stats,
+        gps_termines=gps_termines,
+        gps_en_attente=gps_en_attente,
+        gps_a_faire=gps_a_faire
+    )
 
 
 # PRONOSTIC
