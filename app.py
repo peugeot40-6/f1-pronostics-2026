@@ -13,7 +13,6 @@ pilotes = [
     "Albon", "Sainz", "Bottas", "Perez",
     "Hulkenberg", "Bortoleto"
 ]
-COURSES_VERROUILLEES = ["Australie"]  ["Chine"] # tu ajoutes les GP fermés
 
 from flask import Flask, render_template, request, redirect, session
 from functools import wraps
@@ -123,14 +122,16 @@ def accueil():
 
 
 # PRONOSTIC
+COURSES_VERROUILLEES = ["Australie", "Chine"]
+
 @app.route("/pronostic", methods=["GET", "POST"])
 @login_required
 def pronostic():
-gp = request.args.get("gp")  # ou récupère le GP autrement
+    gp = request.args.get("gp")
 
-if gp in COURSES_VERROUILLEES:
-    return "Les pronostics sont fermés pour ce Grand Prix."
-    
+    if gp in COURSES_VERROUILLEES:
+        return "Les pronostics sont fermés pour ce Grand Prix."
+
     if request.method == "POST":
         gp = request.form.get("gp")
         p1 = request.form.get("p1")
@@ -139,18 +140,12 @@ if gp in COURSES_VERROUILLEES:
 
         sheet_pronos, _ = connect_sheets()
         data = sheet_pronos.get_all_records()
-        
-       
-        #  Vérifier doublon
+
         for row in data:
             if row["Joueur"] == session["user"] and row["GP"] == gp:
                 return "❌ Tu as déjà fait un pronostic pour ce GP"
 
-        # ✔ Ajouter si OK
-        sheet_pronos.append_row([
-            session["user"], gp, p1, p2, p3
-        ])
-
+        sheet_pronos.append_row([session["user"], gp, p1, p2, p3])
         return redirect("/accueil")
 
     return render_template("pronostic.html", gps=gps, pilotes=pilotes)
