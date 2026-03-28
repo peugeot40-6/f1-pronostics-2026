@@ -1,89 +1,149 @@
-<h1>Encoder les résultats du Grand Prix</h1>
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fantasy F1 — Résultats</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    .page-wrap {
+      min-height: 100vh;
+      padding: 40px 20px 60px;
+    }
 
-<form method="POST">
+    .page-header {
+      max-width: 580px;
+      margin: 0 auto 36px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
 
-    <label>Grand Prix :</label><br>
-    <select name="gp" required>
-        <option value="">-- Choisir un GP --</option>
-        {% for gp in gps %}
+    .page-title {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 2rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .page-title span { color: var(--red); }
+
+    .resultats-card {
+      max-width: 580px;
+      margin: 0 auto;
+      animation: slideUp 0.5s ease;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .top10-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    .pos-select-wrap {
+      position: relative;
+    }
+
+    .pos-label {
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 1.4rem;
+      font-weight: 900;
+      line-height: 1;
+      margin-bottom: 6px;
+    }
+
+    .pos-1  .pos-label { color: var(--gold); }
+    .pos-2  .pos-label { color: var(--silver); }
+    .pos-3  .pos-label { color: var(--bronze); }
+    .pos-4  .pos-label,
+    .pos-5  .pos-label,
+    .pos-6  .pos-label,
+    .pos-7  .pos-label,
+    .pos-8  .pos-label,
+    .pos-9  .pos-label,
+    .pos-10 .pos-label { color: var(--grey); }
+
+    .admin-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(225,6,0,0.1);
+      border: 1px solid rgba(225,6,0,0.3);
+      color: var(--red);
+      padding: 4px 12px;
+      border-radius: 2px;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 24px;
+    }
+
+    .divider {
+      height: 1px;
+      background: rgba(255,255,255,0.06);
+      margin: 24px 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-track"></div>
+
+  <div class="page-wrap">
+    <div class="page-header">
+      <div class="page-title">⚑ <span>Résultats</span></div>
+      <a href="/accueil" class="back-link">← Retour</a>
+    </div>
+
+    <div class="resultats-card card">
+      <div class="admin-badge">⚙ Mode Admin — Padre</div>
+
+      <form method="POST">
+        <div class="form-group">
+          <label>Grand Prix</label>
+          <select name="gp" required>
+            <option value="">— Choisir un GP —</option>
+            {% for gp in gps %}
             <option value="{{ gp }}">{{ gp }}</option>
-        {% endfor %}
-    </select>
-    <br><br>
+            {% endfor %}
+          </select>
+        </div>
 
-    <label>1er :</label><br>
-    <select name="p1">
-        {% for p in pilotes %}
-            <option value="{{ p }}">{{ p }}</option>
-        {% endfor %}
-    </select><br>
+        <div class="divider"></div>
 
-    <label>2e :</label><br>
-    <select name="p2">
-        {% for p in pilotes %}
-            <option value="{{ p }}">{{ p }}</option>
-        {% endfor %}
-    </select><br>
+        <label style="margin-bottom:16px; display:block;">Top 10</label>
+        <div class="top10-grid">
+          {% for i in range(1, 11) %}
+          <div class="pos-select-wrap pos-{{ i }}">
+            <div class="pos-label">P{{ i }}</div>
+            <select name="p{{ i }}">
+              {% for p in pilotes %}
+              <option value="{{ p }}">{{ p }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          {% endfor %}
+        </div>
 
-    <label>3e :</label><br>
-    <select name="p3">
-        {% for p in pilotes %}
-            <option value="{{ p }}">{{ p }}</option>
-        {% endfor %}
-    </select><br>
+        <div class="divider"></div>
 
-    <label>4e :</label><br>
-    <select name="p4">
-        {% for p in pilotes %}
-            <option value="{{ p }}">{{ p }}</option>
-        {% endfor %}
-    </select><br>
+        <button type="submit" class="btn btn-primary btn-full">
+          Enregistrer les résultats →
+        </button>
+      </form>
+    </div>
 
-    <label>5e :</label><br>
-    <select name="p5">
-        {% for p in pilotes %}
-            <option value="{{ p }}">{{ p }}</option>
-        {% endfor %}
-    </select><br>
-
-    <label>6e :</label><br>
-    <select name="p6">
-        {% for p in pilotes %}
-            <option value="{{ p }}">{{ p }}</option>
-        {% endfor %}
-    </select><br>
-
-    <label>7e :</label><br>
-    <select name="p7">
-        {% for p in pilotes %}
-            <option value="{{ p }}">{{ p }}</option>
-        {% endfor %}
-    </select><br>
-
-    <label>8e :</label><br>
-    <select name="p8">
-        {% for p in pilotes %}
-            <option value="{{ p }}">{{ p }}</option>
-        {% endfor %}
-    </select><br>
-
-    <label>9e :</label><br>
-    <select name="p9">
-        {% for p in pilotes %}
-            <option value="{{ p }}">{{ p }}</option>
-        {% endfor %}
-    </select><br>
-
-    <label>10e :</label><br>
-    <select name="p10">
-        {% for p in pilotes %}
-            <option value="{{ p }}">{{ p }}</option>
-        {% endfor %}
-    </select><br>
-
-    <button type="submit">Valider les résultats</button>
-
-</form>
-
-<br>
-<a href="/accueil">⬅ Retour accueil</a>
+    <div style="max-width:580px; margin: 0 auto;">
+      <a href="/accueil" class="back-link">← Retour à l'accueil</a>
+    </div>
+  </div>
+</body>
+</html>
