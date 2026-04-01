@@ -1,10 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-<!-- Nom affiché sous l'icône -->
-<meta name="application-name" content="F1 Fantasy">
-<!-- Couleur de la barre de statut Android -->
-<meta name="theme-color" content="#0a0a0a">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Fantasy F1 — Connexion</title>
@@ -74,6 +70,22 @@
       border-radius: 20px;
     }
   </style>
+  <!-- Nom affiché sous l'icône -->
+<meta name="application-name" content="F1 Fantasy">
+  <!-- Cache la barre d'URL sur iPhone -->
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black">
+<meta name="apple-mobile-web-app-title" content="F1 Fantasy">
+  <!-- Couleur de la barre de statut Android -->
+<meta name="theme-color" content="#0a0a0a">
+  <!-- Icône standard -->
+<link rel="icon" type="image/png" href="{{ url_for('static', filename='icon.png') }}">
+
+<!-- Icône iPhone (écran d'accueil) -->
+<link rel="apple-touch-icon" href="{{ url_for('static', filename='icon.png') }}">
+
+<!-- Icône Android (écran d'accueil) -->
+<link rel="shortcut icon" href="{{ url_for('static', filename='icon.png') }}">
 </head>
 <body>
   <div class="bg-track"></div>
