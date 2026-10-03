@@ -16,6 +16,7 @@ CALENDRIER_2026 = {
     "Italie":      datetime(2026, 9, 6, 13, 0, tzinfo=timezone.utc),
     "Espagne":     datetime(2026, 9, 13, 13, 0, tzinfo=timezone.utc),
     "Azerbaïdjan": datetime(2026, 9, 26, 11, 0, tzinfo=timezone.utc),
+    "Bahrain":     datetime(2026, 10, 04, 9, 0, tzinfo=timezone.utc)
     "Singapour":   datetime(2026, 10, 11, 8, 0, tzinfo=timezone.utc),
     "États-Unis":  datetime(2026, 10, 25, 19, 0, tzinfo=timezone.utc),
     "Mexique":     datetime(2026, 11, 1, 20, 0, tzinfo=timezone.utc),
@@ -44,7 +45,7 @@ gps = [
     "Miami", "Canada", "Monaco",
     "Barcelone", "Autriche", "Royaume-Uni",
     "Belgique", "Hongrie", "Pays-Bas", "Italie", "Espagne",
-    "Azerbaïdjan", "Singapour", "États-Unis", "Mexique",
+    "Azerbaïdjan", "Bahrain", "Singapour", "États-Unis", "Mexique",
     "Brésil", "Las Vegas", "Qatar", "Abu Dhabi"
 ]
 pilotes = [
@@ -226,7 +227,7 @@ def mes_pronostics():
 
 
 # PRONOSTIC
-COURSES_VERROUILLEES = ["Australie", "Chine", "Japon", "Miami", "Canada", "Monaco", "Barcelone", "Autriche", "Royaume-Uni", "Belgique", "Hongrie", "Pays-Bas", "Italie", "Espagne"]
+COURSES_VERROUILLEES = ["Australie", "Chine", "Japon", "Miami", "Canada", "Monaco", "Barcelone", "Autriche", "Royaume-Uni", "Belgique", "Hongrie", "Pays-Bas", "Italie", "Espagne", "Azerbaïdjan"]
 
 @app.route("/pronostic", methods=["GET", "POST"])
 @login_required
