@@ -227,7 +227,8 @@ def mes_pronostics():
 
 
 # PRONOSTIC
-COURSES_VERROUILLEES = ["Australie", "Chine", "Japon", "Miami", "Canada", "Monaco", "Barcelone", "Autriche", "Royaume-Uni", "Belgique", "Hongrie", "Pays-Bas", "Italie", "Espagne", "Azerbaïdjan"]
+COURSES_VERROUILLEES = ["Australie", "Chine", "Japon", "Miami", "Canada", "Monaco", "Barcelone", "Autriche", "Royaume-Uni", "Belgique", "Hongrie", "Pays-Bas", "Italie", "Espagne",
+                        "Azerbaïdjan", "Bahreïn"]
 
 @app.route("/pronostic", methods=["GET", "POST"])
 @login_required
